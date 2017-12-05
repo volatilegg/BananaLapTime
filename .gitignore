@@ -62,9 +62,5 @@ Carthage/Build
 
 fastlane/
 
-# HSL script
-# hsl
-
-# API Keys
-apiKeys.json
-GoogleService-Info/
+# CoreML models
+CoreMLModels/
