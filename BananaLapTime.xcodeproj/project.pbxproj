@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE77791FD03D5C002DE84E /* AppDelegate.swift */; };
-		E4BE777C1FD03D5C002DE84E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE777B1FD03D5C002DE84E /* ViewController.swift */; };
+		E4BE777C1FD03D5C002DE84E /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE777B1FD03D5C002DE84E /* HomeViewController.swift */; };
 		E4BE777F1FD03D5C002DE84E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4BE777D1FD03D5C002DE84E /* Main.storyboard */; };
 		E4BE77811FD03D5C002DE84E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4BE77801FD03D5C002DE84E /* Assets.xcassets */; };
 		E4BE77841FD03D5C002DE84E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4BE77821FD03D5C002DE84E /* LaunchScreen.storyboard */; };
@@ -17,7 +17,7 @@
 /* Begin PBXFileReference section */
 		E4BE77761FD03D5C002DE84E /* BananaLapTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BananaLapTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4BE77791FD03D5C002DE84E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E4BE777B1FD03D5C002DE84E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E4BE777B1FD03D5C002DE84E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E4BE777E1FD03D5C002DE84E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E4BE77801FD03D5C002DE84E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4BE77831FD03D5C002DE84E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,7 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				E4BE77791FD03D5C002DE84E /* AppDelegate.swift */,
-				E4BE777B1FD03D5C002DE84E /* ViewController.swift */,
+				E4BE777B1FD03D5C002DE84E /* HomeViewController.swift */,
 				E4BE777D1FD03D5C002DE84E /* Main.storyboard */,
 				E4BE77801FD03D5C002DE84E /* Assets.xcassets */,
 				E4BE77821FD03D5C002DE84E /* LaunchScreen.storyboard */,
@@ -154,7 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4BE777C1FD03D5C002DE84E /* ViewController.swift in Sources */,
+				E4BE777C1FD03D5C002DE84E /* HomeViewController.swift in Sources */,
 				E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,7 +299,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ducdo.BananaLapTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -314,7 +314,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ducdo.BananaLapTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
