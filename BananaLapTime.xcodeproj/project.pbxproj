@@ -50,8 +50,8 @@
 		E407BF6C1FD6B21300C0931C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				E47499741FD6E867003829A8 /* Utils */,
 				E407BF6F1FD6B28800C0931C /* Storyboards */,
+				E47499741FD6E867003829A8 /* Utils */,
 				E407BF6D1FD6B23600C0931C /* ViewControllers */,
 				E4BE77791FD03D5C002DE84E /* AppDelegate.swift */,
 			);
@@ -94,11 +94,11 @@
 		E407BF8A1FD6C30200C0931C /* CoreMLModels */ = {
 			isa = PBXGroup;
 			children = (
+				E407BF841FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel */,
 				E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */,
+				E407BF831FD6C14E00C0931C /* MobileNet.mlmodel */,
 				E4662AF81FD6C34300671C07 /* Resnet50.mlmodel */,
 				E4662AF91FD6C34400671C07 /* VGG16.mlmodel */,
-				E407BF841FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel */,
-				E407BF831FD6C14E00C0931C /* MobileNet.mlmodel */,
 			);
 			path = CoreMLModels;
 			sourceTree = "<group>";
