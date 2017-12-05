@@ -11,21 +11,17 @@ import AVFoundation
 
 final class HomeViewController: UIViewController {
 
-    // MARK: - ---------------------- Internal Properties --------------------------
-    //
-
-    // MARK: - ---------------------- UIViewController properties --------------------------
-    //
-
     // MARK: - ---------------------- IBOutlets --------------------------
     //
     @IBOutlet weak var cameraWrapperView: UIView!
 
-    // MARK: - ---------------------- Private Properties --------------------------
+    // MARK: - ---------------------- Public Properties --------------------------
     //
 
-    // MARK: - ---------------------- Public Methods --------------------------
+    // MARK: - ---------------------- Private Properties --------------------------
     //
+    private var captureSession: AVCaptureSession?
+    private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
 
     // MARK: - ---------------------- UIViewController life cycle --------------------------
     // loadView > viewDidLoad > viewWillAppear > viewWillLayoutSubviews > viewDidLayoutSubviews > viewDidAppear
@@ -35,21 +31,42 @@ final class HomeViewController: UIViewController {
         setupCamera()
     }
 
-    // MARK: - ---------------------- UIViewController Methods --------------------------
-    //
+    // MARK: - ---------------------- Route Methods --------------------------
+    // @IBActions, prepare(...), ...
+    @IBAction func startButtonClicked(_ sender: Any) {
+        
+    }
 
-    // MARK: - ---------------------- IBActions --------------------------
+    // MARK: - ---------------------- Public Methods --------------------------
     //
 
     // MARK: - ---------------------- Private Methods --------------------------
-    //
+    // fileprivate, private
     private func setupCamera() {
-        let captureDevice = AVCaptureDevice.default(for: .video)
-        do {
-            let input = try AVCaptureDeviceInput(device: captureDevice)
-        } catch {
-            print(error)
+        guard let captureDevice = AVCaptureDevice.default(for: .video) else {
+            return
         }
 
+        guard let input = try? AVCaptureDeviceInput(device: captureDevice) else {
+            return
+        }
+
+        captureSession = AVCaptureSession()
+
+        guard let captureSession = captureSession else {
+            return
+        }
+
+        captureSession.addInput(input)
+        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+
+        guard let videoPreviewLayer = videoPreviewLayer else {
+            return
+        }
+
+        videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        videoPreviewLayer.frame = cameraWrapperView.layer.bounds
+        cameraWrapperView.layer.addSublayer(videoPreviewLayer)
+        captureSession.startRunning()
     }
 }
