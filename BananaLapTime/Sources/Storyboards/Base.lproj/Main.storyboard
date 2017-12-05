@@ -52,9 +52,19 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CnJ-iF-Bph">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="343"/>
-                                        <color key="backgroundColor" red="0.5450980392" green="0.83137254900000002" blue="0.85882352939999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wxe-ec-Xdk">
+                                                <rect key="frame" x="8" y="8" width="42" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                         <constraints>
+                                            <constraint firstItem="Wxe-ec-Xdk" firstAttribute="top" secondItem="CnJ-iF-Bph" secondAttribute="top" constant="8" id="PWl-1C-aFE"/>
                                             <constraint firstAttribute="height" constant="343" id="xSO-1u-sxX"/>
+                                            <constraint firstItem="Wxe-ec-Xdk" firstAttribute="leading" secondItem="CnJ-iF-Bph" secondAttribute="leading" constant="8" id="ypf-vP-RFH"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -84,6 +94,7 @@
                     </view>
                     <connections>
                         <outlet property="cameraWrapperView" destination="lfr-CD-ugH" id="wmF-Bx-PPA"/>
+                        <outlet property="detailsLabel" destination="Wxe-ec-Xdk" id="olh-3f-m5a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
