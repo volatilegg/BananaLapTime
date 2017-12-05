@@ -35,18 +35,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E407BF6B1FD6B20800C0931C /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		E407BF6C1FD6B21300C0931C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				E407BF711FD6B2EB00C0931C /* Entity */,
-				E407BF6E1FD6B26200C0931C /* Helpers */,
+				E407BF741FD6B55300C0931C /* Helpers */,
+				E407BF731FD6B54300C0931C /* Entities */,
 				E407BF6F1FD6B28800C0931C /* Storyboards */,
 				E407BF6D1FD6B23600C0931C /* ViewControllers */,
 				E4BE77791FD03D5C002DE84E /* AppDelegate.swift */,
@@ -60,13 +53,6 @@
 				E407BF701FD6B2AF00C0931C /* HomeViewController */,
 			);
 			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		E407BF6E1FD6B26200C0931C /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Helpers;
 			sourceTree = "<group>";
 		};
 		E407BF6F1FD6B28800C0931C /* Storyboards */ = {
@@ -86,11 +72,25 @@
 			path = HomeViewController;
 			sourceTree = "<group>";
 		};
-		E407BF711FD6B2EB00C0931C /* Entity */ = {
+		E407BF721FD6B52E00C0931C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Entity;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E407BF731FD6B54300C0931C /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		E407BF741FD6B55300C0931C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		E4BE776D1FD03D5C002DE84E = {
@@ -112,7 +112,7 @@
 		E4BE77781FD03D5C002DE84E /* BananaLapTime */ = {
 			isa = PBXGroup;
 			children = (
-				E407BF6B1FD6B20800C0931C /* Resources */,
+				E407BF721FD6B52E00C0931C /* Resources */,
 				E407BF6C1FD6B21300C0931C /* Sources */,
 				E4BE77801FD03D5C002DE84E /* Assets.xcassets */,
 				E4BE77851FD03D5C002DE84E /* Info.plist */,
