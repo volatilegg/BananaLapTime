@@ -12,9 +12,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Menlo.ttc">
-            <string>Menlo-Bold</string>
-        </array>
         <array key="digital-7.regular.ttf">
             <string>Digital-7</string>
         </array>
@@ -37,7 +34,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVA-Ne-uGP">
                                                 <rect key="frame" x="0.0" y="0.0" width="179.5" height="72"/>
                                                 <color key="backgroundColor" red="0.17254901959999999" green="0.1647058824" blue="0.40784313729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="23"/>
+                                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="23"/>
                                                 <inset key="titleEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                                                 <state key="normal" title="Start">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -50,7 +47,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugU-Gd-uTB">
                                                 <rect key="frame" x="179.5" y="0.0" width="179" height="72"/>
                                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="23"/>
+                                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="23"/>
                                                 <inset key="titleEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
                                                 <state key="normal" title="Stop">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -89,7 +86,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="333" height="358.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Records:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLa-gO-Z1U">
-                                                        <rect key="frame" x="8" y="8" width="68" height="20.5"/>
+                                                        <rect key="frame" x="8" y="20" width="68" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -99,14 +96,14 @@
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gLa-gO-Z1U" secondAttribute="trailing" constant="20" symbolic="YES" id="3tV-rh-8Q0"/>
                                                     <constraint firstItem="gLa-gO-Z1U" firstAttribute="leading" secondItem="CV8-fQ-zj4" secondAttribute="leading" constant="8" id="ErU-9k-n5z"/>
-                                                    <constraint firstItem="gLa-gO-Z1U" firstAttribute="top" secondItem="CV8-fQ-zj4" secondAttribute="top" constant="8" id="SBI-lg-ukg"/>
+                                                    <constraint firstItem="gLa-gO-Z1U" firstAttribute="top" secondItem="CV8-fQ-zj4" secondAttribute="top" constant="20" id="SBI-lg-ukg"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EN0-MM-qD8">
                                                 <rect key="frame" x="333" y="0.0" width="332.5" height="358.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Objects" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wxe-ec-Xdk">
-                                                        <rect key="frame" x="9" y="8" width="59.5" height="20.5"/>
+                                                        <rect key="frame" x="8.5" y="20" width="59.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -115,7 +112,7 @@
                                                 <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstItem="Wxe-ec-Xdk" firstAttribute="leading" secondItem="EN0-MM-qD8" secondAttribute="leading" constant="8" id="49r-ZW-YY8"/>
-                                                    <constraint firstItem="Wxe-ec-Xdk" firstAttribute="top" secondItem="EN0-MM-qD8" secondAttribute="top" constant="8" id="PDo-vJ-5bJ"/>
+                                                    <constraint firstItem="Wxe-ec-Xdk" firstAttribute="top" secondItem="EN0-MM-qD8" secondAttribute="top" constant="20" id="PDo-vJ-5bJ"/>
                                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Wxe-ec-Xdk" secondAttribute="trailing" constant="20" symbolic="YES" id="sCF-j0-H75"/>
                                                 </constraints>
                                             </view>
@@ -134,13 +131,13 @@
                                 <rect key="frame" x="0.0" y="430.5" width="358.5" height="337.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current object:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2k-e9-rys">
-                                        <rect key="frame" x="8" y="8" width="115" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <rect key="frame" x="8" y="8" width="130" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.5450980392" green="0.83137254900000002" blue="0.85882352939999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.66799789669999998" green="0.47512125970000002" blue="0.25860109930000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="l2k-e9-rys" firstAttribute="leading" secondItem="GKj-WK-yvk" secondAttribute="leading" constant="8" id="EC6-or-eSt"/>
                                     <constraint firstItem="l2k-e9-rys" firstAttribute="top" secondItem="GKj-WK-yvk" secondAttribute="top" constant="8" id="Zum-i5-Sb5"/>
@@ -150,8 +147,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S5g-pI-CN7">
                                 <rect key="frame" x="358.5" y="358.5" width="665.5" height="409.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8aA-eq-zBO">
-                                        <rect key="frame" x="215" y="177" width="236" height="56.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8aA-eq-zBO">
+                                        <rect key="frame" x="215.5" y="177" width="236" height="56.5"/>
                                         <fontDescription key="fontDescription" name="Digital-7" family="Digital-7" pointSize="62"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
