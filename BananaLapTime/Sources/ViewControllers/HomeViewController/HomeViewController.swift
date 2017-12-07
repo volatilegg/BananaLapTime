@@ -22,7 +22,8 @@ final class HomeViewController: UIViewController {
     // MARK: - ---------------------- IBOutlets --------------------------
     //
     @IBOutlet private weak var cameraWrapperView: UIView!
-    @IBOutlet private weak var detailsLabel: UILabel!
+    @IBOutlet private weak var detailsLabel: UILabel!    
+    @IBOutlet weak var currentObjectLabel: UILabel!
     @IBOutlet private weak var lapTimeLabel: UILabel!
     @IBOutlet private weak var lapClockLabel: UILabel!
 
@@ -34,10 +35,24 @@ final class HomeViewController: UIViewController {
     private let kMinimumLaptime: TimeInterval = 5.0
     private let kPredictionDela: Double = 0.2 // 20%
     private let kLapTimerInterval: TimeInterval = 0.1 // timer only has a resolution 50ms-100ms
+    private let kDefaultClockText: String = "00:00:00.0"
 
+    private var selectedObject: String = "Unknown" {
+        didSet {
+            guard selectedObject != oldValue else {
+                return
+            }
+
+            guard let currentObjectLabel = currentObjectLabel else {
+                return
+            }
+
+            currentObjectLabel.text = "Lap for: \(selectedObject)"
+        }
+    }
     private var lapTimer: Timer = Timer()
     private var startTime: Date?
-    private var lapRecords: [TimeInterval] = [] {
+    private var lapRecords: [Record] = [] {
         didSet {
             guard let lapTimeLabel = lapTimeLabel else {
                 return
@@ -45,7 +60,7 @@ final class HomeViewController: UIViewController {
 
             var lapText = ""
             for (index, lapRecord) in lapRecords.enumerated() {
-                lapText = lapText + "Lap \(index): \(lapRecord.clockFormat)\n"
+                lapText = lapText + "\(index). \(lapRecord.name): \(lapRecord.lapTime.clockFormat)\n"
             }
 
             lapTimeLabel.text = lapText
@@ -54,7 +69,7 @@ final class HomeViewController: UIViewController {
 
     private var state = BananaState.warmUp {
         didSet {
-            print("--- \(state) === \(oldValue)")
+            print("[State]: \(oldValue) ==> \(state)")
             guard state != oldValue else {
                 return
             }
@@ -122,6 +137,12 @@ final class HomeViewController: UIViewController {
 
             let topTwo = predictedResult.classLabelProbs.sorted(by: { $0.value > $1.value }).prefix(2)
             strongSelf.detailsLabel.text = topTwo.display
+
+            guard strongSelf.state == .warmUp else {
+                return
+            }
+
+            strongSelf.selectedObject = predictedResult.classLabel
         }
     }
 
@@ -178,33 +199,22 @@ final class HomeViewController: UIViewController {
     }
 
     private func warmUpState() {
-        // Lap time for label: top-object
-        
         // Lap time clock stay at 0
-
+        lapClockLabel.text = kDefaultClockText
     }
 
     private func startState() {
-        // Lap time for label: top-object
-
         // Start lapTimer
         startLapTimer()
     }
 
     private func lappingState() {
-        // Lap time for label: top-object
-
-        // Lap time clock stay at 0
 
     }
 
     private func endState() {
-        // Lap time for label: top-object
-
         // Stop lapTimer
         stopLapTimer()
-        // Update result
-
     }
 
     private func startLapTimer() {
@@ -214,7 +224,8 @@ final class HomeViewController: UIViewController {
 
     private func stopLapTimer() {
         if let startTime = startTime {
-            lapRecords.append(startTime.timeIntervalSinceNow)
+            let newRecord = Record(name: selectedObject, lapTime: startTime.timeIntervalSinceNow)
+            lapRecords.append(newRecord)
         }
 
         startTime = nil

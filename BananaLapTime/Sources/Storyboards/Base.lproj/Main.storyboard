@@ -80,14 +80,20 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CnJ-iF-Bph">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="343"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wxe-ec-Xdk">
-                                                <rect key="frame" x="8" y="7.9999999999999982" width="41.666666666666664" height="20.333333333333329"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Object" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wxe-ec-Xdk">
+                                                <rect key="frame" x="8" y="7.9999999999999982" width="51" height="20.333333333333329"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lap time:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2k-e9-rys">
+                                                <rect key="frame" x="8" y="36" width="70.666666666666671" height="20.333333333333329"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lap time:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLa-gO-Z1U">
-                                                <rect key="frame" x="8" y="32.333333333333314" width="70.666666666666671" height="20.333333333333329"/>
+                                                <rect key="frame" x="8" y="64.333333333333371" width="70.666666666666671" height="20.333333333333329"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -95,10 +101,12 @@
                                         </subviews>
                                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstItem="gLa-gO-Z1U" firstAttribute="top" secondItem="Wxe-ec-Xdk" secondAttribute="bottom" constant="4" id="6Sv-jf-sIg"/>
+                                            <constraint firstItem="gLa-gO-Z1U" firstAttribute="top" secondItem="l2k-e9-rys" secondAttribute="bottom" constant="8" id="6Mr-se-Arm"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Wxe-ec-Xdk" secondAttribute="trailing" constant="20" symbolic="YES" id="Mk6-K5-R03"/>
                                             <constraint firstItem="Wxe-ec-Xdk" firstAttribute="top" secondItem="CnJ-iF-Bph" secondAttribute="top" constant="8" id="PWl-1C-aFE"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gLa-gO-Z1U" secondAttribute="trailing" constant="20" symbolic="YES" id="buP-pg-3Zh"/>
+                                            <constraint firstItem="l2k-e9-rys" firstAttribute="top" secondItem="Wxe-ec-Xdk" secondAttribute="bottom" constant="8" id="efM-ob-MH6"/>
+                                            <constraint firstItem="l2k-e9-rys" firstAttribute="leading" secondItem="CnJ-iF-Bph" secondAttribute="leading" constant="8" id="mxL-eo-hZV"/>
                                             <constraint firstItem="gLa-gO-Z1U" firstAttribute="leading" secondItem="CnJ-iF-Bph" secondAttribute="leading" constant="8" id="pZr-7f-aN5"/>
                                             <constraint firstAttribute="height" constant="343" id="xSO-1u-sxX"/>
                                             <constraint firstItem="Wxe-ec-Xdk" firstAttribute="leading" secondItem="CnJ-iF-Bph" secondAttribute="leading" constant="8" id="ypf-vP-RFH"/>
@@ -114,10 +122,10 @@
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S5g-pI-CN7">
-                                <rect key="frame" x="137" y="44" width="100" height="44"/>
+                                <rect key="frame" x="127" y="44" width="120" height="44"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8aA-eq-zBO">
-                                        <rect key="frame" x="14.333333333333343" y="11.333333333333334" width="71.333333333333329" height="20.333333333333329"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8aA-eq-zBO">
+                                        <rect key="frame" x="17.666666666666657" y="11.333333333333334" width="85" height="20.333333333333329"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -128,7 +136,7 @@
                                     <constraint firstAttribute="height" constant="44" id="4wm-m1-wAf"/>
                                     <constraint firstItem="8aA-eq-zBO" firstAttribute="centerX" secondItem="S5g-pI-CN7" secondAttribute="centerX" id="Fx3-Mo-Nyd"/>
                                     <constraint firstItem="8aA-eq-zBO" firstAttribute="centerY" secondItem="S5g-pI-CN7" secondAttribute="centerY" id="edh-D6-bc6"/>
-                                    <constraint firstAttribute="width" constant="100" id="hQR-N2-ppI"/>
+                                    <constraint firstAttribute="width" constant="120" id="hQR-N2-ppI"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -151,6 +159,7 @@
                     </view>
                     <connections>
                         <outlet property="cameraWrapperView" destination="lfr-CD-ugH" id="wmF-Bx-PPA"/>
+                        <outlet property="currentObjectLabel" destination="l2k-e9-rys" id="TgT-LT-JF8"/>
                         <outlet property="detailsLabel" destination="Wxe-ec-Xdk" id="olh-3f-m5a"/>
                         <outlet property="lapClockLabel" destination="8aA-eq-zBO" id="sIf-VQ-tq2"/>
                         <outlet property="lapTimeLabel" destination="gLa-gO-Z1U" id="xHg-wY-EXW"/>
