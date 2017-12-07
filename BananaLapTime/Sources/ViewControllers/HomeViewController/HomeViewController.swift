@@ -34,6 +34,8 @@ final class HomeViewController: UIViewController {
     private static let kMinimumLaptime: TimeInterval = 5.0
     private static let kpredictionDela: Double = 0.2 // 20%
 
+    private var lapTimer: Timer?
+
     private var state = BananaState.warmUp {
         didSet {
             print("--- \(state) === \(oldValue)")
@@ -75,12 +77,15 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCamera()
+
+        // Initialise state
+        stateDidChange()
     }
 
     // MARK: - ---------------------- Route Methods --------------------------
     // @IBActions, prepare(...), ...
     @IBAction func startButtonClicked(_ sender: Any) {
-        
+        state = .start
     }
 
     // MARK: - ---------------------- Public Methods --------------------------
@@ -100,6 +105,9 @@ final class HomeViewController: UIViewController {
         }
     }
 
+    @objc func updateTimer() {
+
+    }
     // MARK: - ---------------------- Private Methods --------------------------
     // fileprivate, private
     private func setupCamera() {
@@ -145,18 +153,37 @@ final class HomeViewController: UIViewController {
     }
 
     private func warmUpState() {
+        // Lap time for label: top-object
+
+        // Lap time clock stay at 0
 
     }
 
     private func startState() {
+        // Lap time for label: top-object
 
+        // Start lapTimer
+        lapTimer = Timer(fireAt: Date(), interval: 0.01, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
 
     private func lappingState() {
+        // Lap time for label: top-object
+
+        // Lap time clock stay at 0
 
     }
 
     private func endState() {
+        // Lap time for label: top-object
+
+        // Stop lapTimer
+        lapTimer?.invalidate()
+
+        // Update result
+
+    }
+
+    private func startLapTimer() {
 
     }
 }
