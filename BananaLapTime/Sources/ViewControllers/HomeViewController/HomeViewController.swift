@@ -10,6 +10,13 @@ import UIKit
 import AVFoundation
 import CoreML
 
+enum BananaState: String {
+    case warmUp
+    case start
+    case lapping
+    case end
+}
+
 final class HomeViewController: UIViewController {
 
     // MARK: - ---------------------- IBOutlets --------------------------
@@ -24,6 +31,21 @@ final class HomeViewController: UIViewController {
 
     // MARK: - ---------------------- Private Properties --------------------------
     //
+    private static let kMinimumLaptime: TimeInterval = 5.0
+    private static let kpredictionDela: Double = 0.2 // 20%
+
+    private var state = BananaState.warmUp {
+        didSet {
+            print("--- \(state) === \(oldValue)")
+            guard state != oldValue else {
+                return
+            }
+
+            stateDidChange()
+        }
+    }
+
+    // Camera related variable
     lazy private var captureSession: AVCaptureSession? = {
         let session = AVCaptureSession()
         session.sessionPreset = .high
@@ -107,6 +129,35 @@ final class HomeViewController: UIViewController {
         let queue = DispatchQueue(label: "com.banana.videoQueue")
         dataOutput.setSampleBufferDelegate(self, queue: queue)
         captureSession.startRunning()
+    }
+
+    private func stateDidChange() {
+        switch state {
+        case .warmUp:
+            warmUpState()
+        case .start:
+            startState()
+        case .lapping:
+            lappingState()
+        case .end:
+            endState()
+        }
+    }
+
+    private func warmUpState() {
+
+    }
+
+    private func startState() {
+
+    }
+
+    private func lappingState() {
+
+    }
+
+    private func endState() {
+
     }
 }
 
