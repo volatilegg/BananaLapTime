@@ -31,10 +31,12 @@ final class HomeViewController: UIViewController {
 
     // MARK: - ---------------------- Private Properties --------------------------
     //
-    private static let kMinimumLaptime: TimeInterval = 5.0
-    private static let kpredictionDela: Double = 0.2 // 20%
+    private let kMinimumLaptime: TimeInterval = 5.0
+    private let kPredictionDela: Double = 0.2 // 20%
+    private let kLapTimerInterval: TimeInterval = 0.1 // timer only has a resolution 50ms-100ms
 
-    private var lapTimer: Timer?
+    private var lapTimer: Timer = Timer()
+    private var startTime: Date?
 
     private var state = BananaState.warmUp {
         didSet {
@@ -106,8 +108,13 @@ final class HomeViewController: UIViewController {
     }
 
     @objc func updateTimer() {
+        guard let startTime = startTime else {
+            return
+        }
 
+        lapClockLabel.text = startTime.timeIntervalSinceNow.clockFormat
     }
+
     // MARK: - ---------------------- Private Methods --------------------------
     // fileprivate, private
     private func setupCamera() {
@@ -163,7 +170,8 @@ final class HomeViewController: UIViewController {
         // Lap time for label: top-object
 
         // Start lapTimer
-        lapTimer = Timer(fireAt: Date(), interval: 0.01, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        startTime = Date()
+        lapTimer = Timer.scheduledTimer(timeInterval: kLapTimerInterval, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
 
     private func lappingState() {
@@ -177,7 +185,8 @@ final class HomeViewController: UIViewController {
         // Lap time for label: top-object
 
         // Stop lapTimer
-        lapTimer?.invalidate()
+        startTime = nil
+        lapTimer.invalidate()
 
         // Update result
 

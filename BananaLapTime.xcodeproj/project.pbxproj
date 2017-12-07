@@ -14,6 +14,7 @@
 		E408C7681FD941FB003E256A /* DictionaryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E408C7671FD941FB003E256A /* DictionaryExtensions.swift */; };
 		E408C76A1FD94215003E256A /* CMSampleBufferExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E408C7691FD94215003E256A /* CMSampleBufferExtensions.swift */; };
 		E408C76C1FD9422D003E256A /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E408C76B1FD9422D003E256A /* UIImageExtensions.swift */; };
+		E408C76E1FD96A22003E256A /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E408C76D1FD96A22003E256A /* TimeIntervalExtensions.swift */; };
 		E4662AFD1FD6C34400671C07 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */; };
 		E47499761FD6E883003829A8 /* ThreadUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47499751FD6E883003829A8 /* ThreadUtils.swift */; };
 		E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE77791FD03D5C002DE84E /* AppDelegate.swift */; };
@@ -31,6 +32,7 @@
 		E408C7671FD941FB003E256A /* DictionaryExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtensions.swift; sourceTree = "<group>"; };
 		E408C7691FD94215003E256A /* CMSampleBufferExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMSampleBufferExtensions.swift; sourceTree = "<group>"; };
 		E408C76B1FD9422D003E256A /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		E408C76D1FD96A22003E256A /* TimeIntervalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtensions.swift; sourceTree = "<group>"; };
 		E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		E47499751FD6E883003829A8 /* ThreadUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadUtils.swift; sourceTree = "<group>"; };
 		E4BE77761FD03D5C002DE84E /* BananaLapTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BananaLapTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +118,7 @@
 				E408C7671FD941FB003E256A /* DictionaryExtensions.swift */,
 				E408C7691FD94215003E256A /* CMSampleBufferExtensions.swift */,
 				E408C76B1FD9422D003E256A /* UIImageExtensions.swift */,
+				E408C76D1FD96A22003E256A /* TimeIntervalExtensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				E408C76C1FD9422D003E256A /* UIImageExtensions.swift in Sources */,
 				E407BF881FD6C14E00C0931C /* MobileNet.mlmodel in Sources */,
 				E408C7641FD941B6003E256A /* DoubleExtensions.swift in Sources */,
+				E408C76E1FD96A22003E256A /* TimeIntervalExtensions.swift in Sources */,
 				E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */,
 				E47499761FD6E883003829A8 /* ThreadUtils.swift in Sources */,
 				E407BF891FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel in Sources */,
