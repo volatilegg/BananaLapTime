@@ -6,9 +6,23 @@
 //  Copyright © 2017 Duc. All rights reserved.
 //
 
+let kPredictionDela: Double = 0.2 // 20%
+
 extension Double {
     var percentage: String {
         let number = (self <= 1) ? (self * 100) : self
         return String(format: "%.2f", number)
+    }
+
+    func acceptablePrediction(with otherPrediction: Double) -> Bool {
+        if self == 0 || otherPrediction == 0 {
+            return false
+        }
+
+        if self > otherPrediction + kPredictionDela || self < otherPrediction - kPredictionDela {
+            return true
+        }
+
+        return false
     }
 }

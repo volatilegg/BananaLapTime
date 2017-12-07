@@ -23,7 +23,7 @@ final class HomeViewController: UIViewController {
     //
     @IBOutlet private weak var cameraWrapperView: UIView!
     @IBOutlet private weak var detailsLabel: UILabel!    
-    @IBOutlet weak var currentObjectLabel: UILabel!
+    @IBOutlet private weak var currentObjectLabel: UILabel!
     @IBOutlet private weak var lapTimeLabel: UILabel!
     @IBOutlet private weak var lapClockLabel: UILabel!
 
@@ -32,14 +32,14 @@ final class HomeViewController: UIViewController {
 
     // MARK: - ---------------------- Private Properties --------------------------
     //
-    private let kMinimumLaptime: TimeInterval = 5.0
-    private let kPredictionDela: Double = 0.2 // 20%
+    private let kMinimumLaptime: TimeInterval = 2.0
+
     private let kLapTimerInterval: TimeInterval = 0.1 // timer only has a resolution 50ms-100ms
     private let kDefaultClockText: String = "00:00:00.0"
 
-    private var selectedObject: String = "Unknown" {
+    private var selectedObject: (name: String, prediction: Double) = (name: "Unknown", prediction: 0) {
         didSet {
-            guard selectedObject != oldValue else {
+            guard selectedObject.name != oldValue.name else {
                 return
             }
 
@@ -47,9 +47,12 @@ final class HomeViewController: UIViewController {
                 return
             }
 
-            currentObjectLabel.text = "Lap for: \(selectedObject)"
+            currentObjectLabel.text = "Lap for: \(selectedObject.name) \(selectedObject.prediction.percentage)%"
         }
     }
+
+    private var prediction: Double = 0
+
     private var lapTimer: Timer = Timer()
     private var startTime: Date?
     private var lapRecords: [Record] = [] {
@@ -138,11 +141,32 @@ final class HomeViewController: UIViewController {
             let topTwo = predictedResult.classLabelProbs.sorted(by: { $0.value > $1.value }).prefix(2)
             strongSelf.detailsLabel.text = topTwo.display
 
-            guard strongSelf.state == .warmUp else {
+            guard let topObject = topTwo.first else {
                 return
             }
 
-            strongSelf.selectedObject = predictedResult.classLabel
+            // Warmup handler
+            if strongSelf.state == .warmUp {
+                strongSelf.selectedObject = (name: topObject.key, prediction: topObject.value)
+                return
+            }
+
+            // Lapping handler
+            if strongSelf.state == .lapping {
+                guard topObject.key == strongSelf.selectedObject.name else {
+                    return
+                }
+
+                guard let startTime = strongSelf.startTime, abs(startTime.timeIntervalSinceNow) > strongSelf.kMinimumLaptime else {
+                    return
+                }
+
+                if topObject.value.acceptablePrediction(with: strongSelf.selectedObject.prediction) {
+                    strongSelf.state = .end
+                }
+
+                return
+            }
         }
     }
 
@@ -220,11 +244,12 @@ final class HomeViewController: UIViewController {
     private func startLapTimer() {
         startTime = Date()
         lapTimer = Timer.scheduledTimer(timeInterval: kLapTimerInterval, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        state = .lapping
     }
 
     private func stopLapTimer() {
         if let startTime = startTime {
-            let newRecord = Record(name: selectedObject, lapTime: startTime.timeIntervalSinceNow)
+            let newRecord = Record(name: selectedObject.name, lapTime: startTime.timeIntervalSinceNow)
             lapRecords.append(newRecord)
         }
 
