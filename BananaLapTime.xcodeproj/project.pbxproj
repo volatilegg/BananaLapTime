@@ -9,8 +9,11 @@
 /* Begin PBXBuildFile section */
 		E407BF881FD6C14E00C0931C /* MobileNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E407BF831FD6C14E00C0931C /* MobileNet.mlmodel */; };
 		E407BF891FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E407BF841FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel */; };
-		E4662AFB1FD6C34400671C07 /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E4662AF81FD6C34300671C07 /* Resnet50.mlmodel */; };
-		E4662AFC1FD6C34400671C07 /* VGG16.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E4662AF91FD6C34400671C07 /* VGG16.mlmodel */; };
+		E408C7641FD941B6003E256A /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E408C7631FD941B6003E256A /* DoubleExtensions.swift */; };
+		E408C7661FD941E7003E256A /* ArraySliceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E408C7651FD941E7003E256A /* ArraySliceExtensions.swift */; };
+		E408C7681FD941FB003E256A /* DictionaryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E408C7671FD941FB003E256A /* DictionaryExtensions.swift */; };
+		E408C76A1FD94215003E256A /* CMSampleBufferExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E408C7691FD94215003E256A /* CMSampleBufferExtensions.swift */; };
+		E408C76C1FD9422D003E256A /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E408C76B1FD9422D003E256A /* UIImageExtensions.swift */; };
 		E4662AFD1FD6C34400671C07 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */; };
 		E47499761FD6E883003829A8 /* ThreadUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47499751FD6E883003829A8 /* ThreadUtils.swift */; };
 		E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE77791FD03D5C002DE84E /* AppDelegate.swift */; };
@@ -23,8 +26,11 @@
 /* Begin PBXFileReference section */
 		E407BF831FD6C14E00C0931C /* MobileNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNet.mlmodel; sourceTree = "<group>"; };
 		E407BF841FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GoogLeNetPlaces.mlmodel; sourceTree = "<group>"; };
-		E4662AF81FD6C34300671C07 /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
-		E4662AF91FD6C34400671C07 /* VGG16.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = VGG16.mlmodel; sourceTree = "<group>"; };
+		E408C7631FD941B6003E256A /* DoubleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensions.swift; sourceTree = "<group>"; };
+		E408C7651FD941E7003E256A /* ArraySliceExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArraySliceExtensions.swift; sourceTree = "<group>"; };
+		E408C7671FD941FB003E256A /* DictionaryExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtensions.swift; sourceTree = "<group>"; };
+		E408C7691FD94215003E256A /* CMSampleBufferExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMSampleBufferExtensions.swift; sourceTree = "<group>"; };
+		E408C76B1FD9422D003E256A /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		E47499751FD6E883003829A8 /* ThreadUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadUtils.swift; sourceTree = "<group>"; };
 		E4BE77761FD03D5C002DE84E /* BananaLapTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BananaLapTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,8 +103,6 @@
 				E407BF841FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel */,
 				E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */,
 				E407BF831FD6C14E00C0931C /* MobileNet.mlmodel */,
-				E4662AF81FD6C34300671C07 /* Resnet50.mlmodel */,
-				E4662AF91FD6C34400671C07 /* VGG16.mlmodel */,
 			);
 			path = CoreMLModels;
 			sourceTree = "<group>";
@@ -107,6 +111,11 @@
 			isa = PBXGroup;
 			children = (
 				E47499751FD6E883003829A8 /* ThreadUtils.swift */,
+				E408C7631FD941B6003E256A /* DoubleExtensions.swift */,
+				E408C7651FD941E7003E256A /* ArraySliceExtensions.swift */,
+				E408C7671FD941FB003E256A /* DictionaryExtensions.swift */,
+				E408C7691FD94215003E256A /* CMSampleBufferExtensions.swift */,
+				E408C76B1FD9422D003E256A /* UIImageExtensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -228,10 +237,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4662AFB1FD6C34400671C07 /* Resnet50.mlmodel in Sources */,
+				E408C7661FD941E7003E256A /* ArraySliceExtensions.swift in Sources */,
+				E408C76A1FD94215003E256A /* CMSampleBufferExtensions.swift in Sources */,
+				E408C7681FD941FB003E256A /* DictionaryExtensions.swift in Sources */,
 				E4BE777C1FD03D5C002DE84E /* HomeViewController.swift in Sources */,
-				E4662AFC1FD6C34400671C07 /* VGG16.mlmodel in Sources */,
+				E408C76C1FD9422D003E256A /* UIImageExtensions.swift in Sources */,
 				E407BF881FD6C14E00C0931C /* MobileNet.mlmodel in Sources */,
+				E408C7641FD941B6003E256A /* DoubleExtensions.swift in Sources */,
 				E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */,
 				E47499761FD6E883003829A8 /* ThreadUtils.swift in Sources */,
 				E407BF891FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel in Sources */,

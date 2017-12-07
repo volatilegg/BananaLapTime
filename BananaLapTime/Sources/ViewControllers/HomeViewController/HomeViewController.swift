@@ -16,6 +16,8 @@ final class HomeViewController: UIViewController {
     //
     @IBOutlet private weak var cameraWrapperView: UIView!
     @IBOutlet private weak var detailsLabel: UILabel!
+    @IBOutlet private weak var lapTimeLabel: UILabel!
+    @IBOutlet private weak var lapClockLabel: UILabel!
 
     // MARK: - ---------------------- Public Properties --------------------------
     //
@@ -26,6 +28,11 @@ final class HomeViewController: UIViewController {
         let session = AVCaptureSession()
         session.sessionPreset = .high
         return session
+    }()
+
+    lazy private var inception: Inceptionv3 = {
+        let model = Inceptionv3()
+        return model
     }()
 
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer? {
@@ -40,11 +47,6 @@ final class HomeViewController: UIViewController {
         previewLayer.position = CGPoint.zero
         return previewLayer
     }
-
-    lazy private var inception: Inceptionv3 = {
-        let model = Inceptionv3()
-        return model
-    }()
 
     // MARK: - ---------------------- UIViewController life cycle --------------------------
     // loadView > viewDidLoad > viewWillAppear > viewWillLayoutSubviews > viewDidLayoutSubviews > viewDidAppear
@@ -71,7 +73,8 @@ final class HomeViewController: UIViewController {
                 return
             }
 
-            strongSelf.detailsLabel.text = predictedResult.classLabel
+            let topTwo = predictedResult.classLabelProbs.sorted(by: { $0.value > $1.value }).prefix(2)
+            strongSelf.detailsLabel.text = topTwo.display
         }
     }
 
@@ -109,6 +112,7 @@ final class HomeViewController: UIViewController {
 
 extension HomeViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        
         guard let buffer = sampleBuffer.image()?.cvBuffer() else {
             return
         }
@@ -118,73 +122,5 @@ extension HomeViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
     func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 
-    }
-}
-
-extension UIImage {
-    func cvBuffer() -> CVPixelBuffer? {
-        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
-        var pixelBuffer: CVPixelBuffer?
-        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(size.width), Int(size.height), kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
-        guard status == kCVReturnSuccess else {
-            return nil
-        }
-
-        CVPixelBufferLockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
-        let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer!)
-
-        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-        let context = CGContext(data: pixelData, width: Int(size.width), height: Int(size.height), bitsPerComponent: 8, bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer!), space: rgbColorSpace, bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue)
-
-        context?.translateBy(x: 0, y: size.height)
-        context?.scaleBy(x: 1.0, y: -1.0)
-
-        UIGraphicsPushContext(context!)
-        draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        UIGraphicsPopContext()
-        CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
-
-        return pixelBuffer
-    }
-}
-
-extension CMSampleBuffer {
-    func cvBuffer() -> CVPixelBuffer? {
-        guard let buffer = CMSampleBufferGetImageBuffer(self) else {
-            return nil
-        }
-
-        return buffer
-    }
-
-    func image() -> UIImage? {
-        guard let buffer = CMSampleBufferGetImageBuffer(self) else {
-            return nil
-        }
-
-        let ciImage = CIImage(cvPixelBuffer: buffer)
-        let image = UIImage(ciImage: ciImage)
-        return resize(image: image, newWidth: 299)
-    }
-
-    func resize(image: UIImage, ratio: CGFloat) -> UIImage? {
-        let newSize: CGSize = CGSize(width: image.size.width * ratio, height: image.size.height * ratio)
-        return resize(image: image, newSize: newSize)        
-    }
-
-    func resize(image: UIImage, newWidth: CGFloat) -> UIImage? {
-        let newSize: CGSize = CGSize(width: newWidth, height: newWidth)
-        return resize(image: image, newSize: newSize)
-    }
-
-    func resize(image: UIImage, newSize: CGSize) -> UIImage? {
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        return newImage
     }
 }
