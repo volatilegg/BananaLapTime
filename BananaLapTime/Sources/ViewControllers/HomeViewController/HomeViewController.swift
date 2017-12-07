@@ -306,10 +306,10 @@ final class HomeViewController: UIViewController {
                 return
             }
 
-            let topTwo = predictedResult.sorted(by: { $0.value > $1.value }).prefix(2)
-            strongSelf.detailsLabel.text = topTwo.display
+            let topFive = predictedResult.sorted(by: { $0.value > $1.value }).prefix(5)
+            strongSelf.detailsLabel.text = topFive.display
 
-            guard let topObject = topTwo.first else {
+            guard let topObject = topFive.first else {
                 return
             }
 
@@ -321,15 +321,11 @@ final class HomeViewController: UIViewController {
 
             // Lapping handler
             if strongSelf.state == .lapping {
-                guard topObject.key == strongSelf.selectedObject.name else {
-                    return
-                }
-
                 guard let startTime = strongSelf.startTime, abs(startTime.timeIntervalSinceNow) > strongSelf.kMinimumLaptime else {
                     return
                 }
 
-                if topObject.value.acceptablePrediction(with: strongSelf.selectedObject.prediction) {
+                for obj in topFive where obj.key == strongSelf.selectedObject.name && obj.value.acceptablePrediction(with: strongSelf.selectedObject.prediction) {
                     strongSelf.state = .end
                 }
 

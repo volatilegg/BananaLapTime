@@ -6,7 +6,7 @@
 //  Copyright © 2017 Duc. All rights reserved.
 //
 
-let kPredictionDela: Double = 0.4 // 40%
+let kPredictionDela: Double = 0.6 // 60%
 
 extension Double {
     var percentage: String {
@@ -19,7 +19,7 @@ extension Double {
             return false
         }
 
-        if self > otherPrediction + kPredictionDela || self < otherPrediction - kPredictionDela {
+        if self + kPredictionDela >= otherPrediction || self - kPredictionDela <= otherPrediction {
             return true
         }
 
