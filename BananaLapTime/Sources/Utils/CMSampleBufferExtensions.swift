@@ -18,14 +18,14 @@ extension CMSampleBuffer {
         return buffer
     }
 
-    func image() -> UIImage? {
+    func image(newWidth: CGFloat) -> UIImage? {
         guard let buffer = CMSampleBufferGetImageBuffer(self) else {
             return nil
         }
 
         let ciImage = CIImage(cvPixelBuffer: buffer)
         let image = UIImage(ciImage: ciImage)
-        return resize(image: image, newWidth: 299)
+        return resize(image: image, newWidth: newWidth)
     }
 
     func resize(image: UIImage, ratio: CGFloat) -> UIImage? {

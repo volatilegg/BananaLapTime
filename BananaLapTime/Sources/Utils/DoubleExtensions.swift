@@ -6,7 +6,7 @@
 //  Copyright © 2017 Duc. All rights reserved.
 //
 
-let kPredictionDela: Double = 0.2 // 20%
+let kPredictionDela: Double = 0.4 // 40%
 
 extension Double {
     var percentage: String {

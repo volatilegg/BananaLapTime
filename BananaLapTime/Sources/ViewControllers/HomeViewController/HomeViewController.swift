@@ -10,6 +10,26 @@ import UIKit
 import AVFoundation
 import CoreML
 
+enum ModelType {
+    case inceptionV3
+    case googLeNetPlace
+    case mobileNet
+    case vgg16
+
+    var imageSize: CGFloat {
+        switch self {
+        case .inceptionV3:
+            return 299
+        case .googLeNetPlace:
+            return 224
+        case .mobileNet:
+            return 224
+        case .vgg16:
+            return 224
+        }
+    }
+}
+
 enum BananaState: String {
     case warmUp
     case start
@@ -32,8 +52,7 @@ final class HomeViewController: UIViewController {
 
     // MARK: - ---------------------- Private Properties --------------------------
     //
-    private let kMinimumLaptime: TimeInterval = 2.0
-
+    private let kMinimumLaptime: TimeInterval = 3.0
     private let kLapTimerInterval: TimeInterval = 0.1 // timer only has a resolution 50ms-100ms
     private let kDefaultClockText: String = "00:00:00.0"
 
@@ -52,7 +71,7 @@ final class HomeViewController: UIViewController {
     }
 
     private var prediction: Double = 0
-
+    private var modelType: ModelType = .vgg16
     private var lapTimer: Timer = Timer()
     private var startTime: Date?
     private var lapRecords: [Record] = [] {
@@ -81,16 +100,31 @@ final class HomeViewController: UIViewController {
         }
     }
 
+    lazy private var inception: Inceptionv3 = {
+        let model = Inceptionv3()
+        return model
+    }()
+
+    lazy private var googleNet: GoogLeNetPlaces = {
+        let model = GoogLeNetPlaces()
+        return model
+    }()
+
+    lazy private var vgg16: VGG16 = {
+        let model = VGG16()
+        return model
+    }()
+
+    lazy private var mobileNet: MobileNet = {
+        let model = MobileNet()
+        return model
+    }()
+
     // Camera related variable
     lazy private var captureSession: AVCaptureSession? = {
         let session = AVCaptureSession()
         session.sessionPreset = .high
         return session
-    }()
-
-    lazy private var inception: Inceptionv3 = {
-        let model = Inceptionv3()
-        return model
     }()
 
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer? {
@@ -128,7 +162,92 @@ final class HomeViewController: UIViewController {
 
     // MARK: - ---------------------- Public Methods --------------------------
     //
-    func classifier(image: CVPixelBuffer) {
+
+    func classifierVGG16(image: CVPixelBuffer) {
+        guard let predictedResult = try? vgg16.prediction(image: image) else {
+            return
+        }
+
+        runOnMainThread { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let topTwo = predictedResult.classLabelProbs.sorted(by: { $0.value > $1.value }).prefix(2)
+            strongSelf.detailsLabel.text = topTwo.display
+
+            guard let topObject = topTwo.first else {
+                return
+            }
+
+            // Warmup handler
+            if strongSelf.state == .warmUp {
+                strongSelf.selectedObject = (name: topObject.key, prediction: topObject.value)
+                return
+            }
+
+            // Lapping handler
+            if strongSelf.state == .lapping {
+                guard topObject.key == strongSelf.selectedObject.name else {
+                    return
+                }
+
+                guard let startTime = strongSelf.startTime, abs(startTime.timeIntervalSinceNow) > strongSelf.kMinimumLaptime else {
+                    return
+                }
+
+                if topObject.value.acceptablePrediction(with: strongSelf.selectedObject.prediction) {
+                    strongSelf.state = .end
+                }
+
+                return
+            }
+        }
+    }
+
+    func classifierGooglePlace(image: CVPixelBuffer) {
+        guard let predictedResult = try? googleNet.prediction(sceneImage: image) else {
+            return
+        }
+
+        runOnMainThread { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let topTwo = predictedResult.sceneLabelProbs.sorted(by: { $0.value > $1.value }).prefix(2)
+            strongSelf.detailsLabel.text = topTwo.display
+
+            guard let topObject = topTwo.first else {
+                return
+            }
+
+            // Warmup handler
+            if strongSelf.state == .warmUp {
+                strongSelf.selectedObject = (name: topObject.key, prediction: topObject.value)
+                return
+            }
+
+            // Lapping handler
+            if strongSelf.state == .lapping {
+                guard topObject.key == strongSelf.selectedObject.name else {
+                    return
+                }
+
+                guard let startTime = strongSelf.startTime, abs(startTime.timeIntervalSinceNow) > strongSelf.kMinimumLaptime else {
+                    return
+                }
+
+                if topObject.value.acceptablePrediction(with: strongSelf.selectedObject.prediction) {
+                    strongSelf.state = .end
+                }
+
+                return
+            }
+        }
+    }
+
+    func classifierInception(image: CVPixelBuffer) {
         guard let predictedResult = try? inception.prediction(image: image) else {
             return
         }
@@ -170,6 +289,47 @@ final class HomeViewController: UIViewController {
         }
     }
 
+    func classifierMobileNet(image: CVPixelBuffer) {
+        guard let predictedResult = try? mobileNet.prediction(image: image) else {
+            return
+        }
+
+        runOnMainThread { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let topTwo = predictedResult.classLabelProbs.sorted(by: { $0.value > $1.value }).prefix(2)
+            strongSelf.detailsLabel.text = topTwo.display
+
+            guard let topObject = topTwo.first else {
+                return
+            }
+
+            // Warmup handler
+            if strongSelf.state == .warmUp {
+                strongSelf.selectedObject = (name: topObject.key, prediction: topObject.value)
+                return
+            }
+
+            // Lapping handler
+            if strongSelf.state == .lapping {
+                guard topObject.key == strongSelf.selectedObject.name else {
+                    return
+                }
+
+                guard let startTime = strongSelf.startTime, abs(startTime.timeIntervalSinceNow) > strongSelf.kMinimumLaptime else {
+                    return
+                }
+
+                if topObject.value.acceptablePrediction(with: strongSelf.selectedObject.prediction) {
+                    strongSelf.state = .end
+                }
+
+                return
+            }
+        }
+    }
     @objc func updateTimer() {
         guard let startTime = startTime else {
             return
@@ -257,16 +417,29 @@ final class HomeViewController: UIViewController {
         lapTimer.invalidate()
         state = .warmUp
     }
+
+    private func classifier(sampleBuffer: CMSampleBuffer, model: ModelType) {
+        guard let buffer = sampleBuffer.image(newWidth: model.imageSize)?.cvBuffer() else {
+            return
+        }
+
+        switch model {
+        case .inceptionV3:
+            classifierInception(image: buffer)
+        case .googLeNetPlace:
+            classifierGooglePlace(image: buffer)
+        case .mobileNet:
+            classifierMobileNet(image: buffer)
+        case .vgg16:
+            classifierVGG16(image: buffer)
+        }
+    }
 }
 
 extension HomeViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
-        guard let buffer = sampleBuffer.image()?.cvBuffer() else {
-            return
-        }
 
-        classifier(image: buffer)
+        classifier(sampleBuffer: sampleBuffer, model: modelType)
     }
 
     func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
