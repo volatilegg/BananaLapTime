@@ -37,6 +37,20 @@ final class HomeViewController: UIViewController {
 
     private var lapTimer: Timer = Timer()
     private var startTime: Date?
+    private var lapRecords: [TimeInterval] = [] {
+        didSet {
+            guard let lapTimeLabel = lapTimeLabel else {
+                return
+            }
+
+            var lapText = ""
+            for (index, lapRecord) in lapRecords.enumerated() {
+                lapText = lapText + "Lap \(index): \(lapRecord.clockFormat)\n"
+            }
+
+            lapTimeLabel.text = lapText
+        }
+    }
 
     private var state = BananaState.warmUp {
         didSet {
@@ -88,6 +102,10 @@ final class HomeViewController: UIViewController {
     // @IBActions, prepare(...), ...
     @IBAction func startButtonClicked(_ sender: Any) {
         state = .start
+    }
+
+    @IBAction func stopButtonClicked(_ sender: Any) {
+        state = .end
     }
 
     // MARK: - ---------------------- Public Methods --------------------------
@@ -161,7 +179,7 @@ final class HomeViewController: UIViewController {
 
     private func warmUpState() {
         // Lap time for label: top-object
-
+        
         // Lap time clock stay at 0
 
     }
@@ -170,8 +188,7 @@ final class HomeViewController: UIViewController {
         // Lap time for label: top-object
 
         // Start lapTimer
-        startTime = Date()
-        lapTimer = Timer.scheduledTimer(timeInterval: kLapTimerInterval, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        startLapTimer()
     }
 
     private func lappingState() {
@@ -185,15 +202,24 @@ final class HomeViewController: UIViewController {
         // Lap time for label: top-object
 
         // Stop lapTimer
-        startTime = nil
-        lapTimer.invalidate()
-
+        stopLapTimer()
         // Update result
 
     }
 
     private func startLapTimer() {
+        startTime = Date()
+        lapTimer = Timer.scheduledTimer(timeInterval: kLapTimerInterval, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
 
+    private func stopLapTimer() {
+        if let startTime = startTime {
+            lapRecords.append(startTime.timeIntervalSinceNow)
+        }
+
+        startTime = nil
+        lapTimer.invalidate()
+        state = .warmUp
     }
 }
 
