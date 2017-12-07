@@ -10,26 +10,6 @@ import UIKit
 import AVFoundation
 import CoreML
 
-enum ModelType {
-    case inceptionV3
-    case googLeNetPlace
-    case mobileNet
-    case vgg16
-
-    var imageSize: CGFloat {
-        switch self {
-        case .inceptionV3:
-            return 299
-        case .googLeNetPlace:
-            return 224
-        case .mobileNet:
-            return 224
-        case .vgg16:
-            return 224
-        }
-    }
-}
-
 enum BananaState: String {
     case warmUp
     case start
@@ -55,21 +35,6 @@ final class HomeViewController: UIViewController {
     private let kMinimumLaptime: TimeInterval = 3.0
     private let kLapTimerInterval: TimeInterval = 0.1 // timer only has a resolution 50ms-100ms
     private let kDefaultClockText: String = "00:00:00.0"
-
-    private var selectedObject: (name: String, prediction: Double) = (name: "Unknown", prediction: 0) {
-        didSet {
-            guard selectedObject.name != oldValue.name else {
-                return
-            }
-
-            guard let currentObjectLabel = currentObjectLabel else {
-                return
-            }
-
-            currentObjectLabel.text = "Lap for: \(selectedObject.name) \(selectedObject.prediction.percentage)%"
-        }
-    }
-
     private var prediction: Double = 0
     private var modelType: ModelType = .vgg16
     private var lapTimer: Timer = Timer()
@@ -86,6 +51,20 @@ final class HomeViewController: UIViewController {
             }
 
             lapTimeLabel.text = lapText
+        }
+    }
+
+    private var selectedObject: (name: String, prediction: Double) = (name: "Unknown", prediction: 0) {
+        didSet {
+            guard selectedObject.name != oldValue.name else {
+                return
+            }
+
+            guard let currentObjectLabel = currentObjectLabel else {
+                return
+            }
+
+            currentObjectLabel.text = "Lap for: \(selectedObject.name) \(selectedObject.prediction.percentage)%"
         }
     }
 
@@ -225,7 +204,7 @@ final class HomeViewController: UIViewController {
         captureSession.commitConfiguration()
 
         videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        videoPreviewLayer.frame = cameraWrapperView.layer.bounds
+        videoPreviewLayer.frame = cameraWrapperView.bounds
         cameraWrapperView.layer.addSublayer(videoPreviewLayer)
 
         let queue = DispatchQueue(label: "com.banana.videoQueue")
