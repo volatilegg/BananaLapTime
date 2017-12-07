@@ -168,41 +168,7 @@ final class HomeViewController: UIViewController {
             return
         }
 
-        runOnMainThread { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-
-            let topTwo = predictedResult.classLabelProbs.sorted(by: { $0.value > $1.value }).prefix(2)
-            strongSelf.detailsLabel.text = topTwo.display
-
-            guard let topObject = topTwo.first else {
-                return
-            }
-
-            // Warmup handler
-            if strongSelf.state == .warmUp {
-                strongSelf.selectedObject = (name: topObject.key, prediction: topObject.value)
-                return
-            }
-
-            // Lapping handler
-            if strongSelf.state == .lapping {
-                guard topObject.key == strongSelf.selectedObject.name else {
-                    return
-                }
-
-                guard let startTime = strongSelf.startTime, abs(startTime.timeIntervalSinceNow) > strongSelf.kMinimumLaptime else {
-                    return
-                }
-
-                if topObject.value.acceptablePrediction(with: strongSelf.selectedObject.prediction) {
-                    strongSelf.state = .end
-                }
-
-                return
-            }
-        }
+        handlerData(predictedResult: predictedResult.classLabelProbs)
     }
 
     func classifierGooglePlace(image: CVPixelBuffer) {
@@ -210,41 +176,7 @@ final class HomeViewController: UIViewController {
             return
         }
 
-        runOnMainThread { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-
-            let topTwo = predictedResult.sceneLabelProbs.sorted(by: { $0.value > $1.value }).prefix(2)
-            strongSelf.detailsLabel.text = topTwo.display
-
-            guard let topObject = topTwo.first else {
-                return
-            }
-
-            // Warmup handler
-            if strongSelf.state == .warmUp {
-                strongSelf.selectedObject = (name: topObject.key, prediction: topObject.value)
-                return
-            }
-
-            // Lapping handler
-            if strongSelf.state == .lapping {
-                guard topObject.key == strongSelf.selectedObject.name else {
-                    return
-                }
-
-                guard let startTime = strongSelf.startTime, abs(startTime.timeIntervalSinceNow) > strongSelf.kMinimumLaptime else {
-                    return
-                }
-
-                if topObject.value.acceptablePrediction(with: strongSelf.selectedObject.prediction) {
-                    strongSelf.state = .end
-                }
-
-                return
-            }
-        }
+        handlerData(predictedResult: predictedResult.sceneLabelProbs)
     }
 
     func classifierInception(image: CVPixelBuffer) {
@@ -252,83 +184,15 @@ final class HomeViewController: UIViewController {
             return
         }
 
-        runOnMainThread { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-
-            let topTwo = predictedResult.classLabelProbs.sorted(by: { $0.value > $1.value }).prefix(2)
-            strongSelf.detailsLabel.text = topTwo.display
-
-            guard let topObject = topTwo.first else {
-                return
-            }
-
-            // Warmup handler
-            if strongSelf.state == .warmUp {
-                strongSelf.selectedObject = (name: topObject.key, prediction: topObject.value)
-                return
-            }
-
-            // Lapping handler
-            if strongSelf.state == .lapping {
-                guard topObject.key == strongSelf.selectedObject.name else {
-                    return
-                }
-
-                guard let startTime = strongSelf.startTime, abs(startTime.timeIntervalSinceNow) > strongSelf.kMinimumLaptime else {
-                    return
-                }
-
-                if topObject.value.acceptablePrediction(with: strongSelf.selectedObject.prediction) {
-                    strongSelf.state = .end
-                }
-
-                return
-            }
-        }
+        handlerData(predictedResult: predictedResult.classLabelProbs)
     }
 
     func classifierMobileNet(image: CVPixelBuffer) {
         guard let predictedResult = try? mobileNet.prediction(image: image) else {
             return
         }
-
-        runOnMainThread { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-
-            let topTwo = predictedResult.classLabelProbs.sorted(by: { $0.value > $1.value }).prefix(2)
-            strongSelf.detailsLabel.text = topTwo.display
-
-            guard let topObject = topTwo.first else {
-                return
-            }
-
-            // Warmup handler
-            if strongSelf.state == .warmUp {
-                strongSelf.selectedObject = (name: topObject.key, prediction: topObject.value)
-                return
-            }
-
-            // Lapping handler
-            if strongSelf.state == .lapping {
-                guard topObject.key == strongSelf.selectedObject.name else {
-                    return
-                }
-
-                guard let startTime = strongSelf.startTime, abs(startTime.timeIntervalSinceNow) > strongSelf.kMinimumLaptime else {
-                    return
-                }
-
-                if topObject.value.acceptablePrediction(with: strongSelf.selectedObject.prediction) {
-                    strongSelf.state = .end
-                }
-
-                return
-            }
-        }
+        
+        handlerData(predictedResult: predictedResult.classLabelProbs)
     }
     @objc func updateTimer() {
         guard let startTime = startTime else {
@@ -432,6 +296,45 @@ final class HomeViewController: UIViewController {
             classifierMobileNet(image: buffer)
         case .vgg16:
             classifierVGG16(image: buffer)
+        }
+    }
+
+    private func handlerData(predictedResult: [String: Double]) {
+
+        runOnMainThread { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let topTwo = predictedResult.sorted(by: { $0.value > $1.value }).prefix(2)
+            strongSelf.detailsLabel.text = topTwo.display
+
+            guard let topObject = topTwo.first else {
+                return
+            }
+
+            // Warmup handler
+            if strongSelf.state == .warmUp {
+                strongSelf.selectedObject = (name: topObject.key, prediction: topObject.value)
+                return
+            }
+
+            // Lapping handler
+            if strongSelf.state == .lapping {
+                guard topObject.key == strongSelf.selectedObject.name else {
+                    return
+                }
+
+                guard let startTime = strongSelf.startTime, abs(startTime.timeIntervalSinceNow) > strongSelf.kMinimumLaptime else {
+                    return
+                }
+
+                if topObject.value.acceptablePrediction(with: strongSelf.selectedObject.prediction) {
+                    strongSelf.state = .end
+                }
+
+                return
+            }
         }
     }
 }
