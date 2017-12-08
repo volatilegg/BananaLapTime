@@ -36,7 +36,7 @@ final class HomeViewController: UIViewController {
     private let kLapTimerInterval: TimeInterval = 0.1 // timer only has a resolution 50ms-100ms
     private let kDefaultClockText: String = "00:00:00.0"
     private var prediction: Double = 0
-    private var modelType: ModelType = .carRecognition
+    private var modelType: ModelType = .tinyYOLO
     private var lapTimer: Timer = Timer()
     private var startTime: Date?
     private var lapRecords: [Record] = [] {
@@ -211,10 +211,11 @@ final class HomeViewController: UIViewController {
     }
 
     func classifierTinyYOLO(image: CVPixelBuffer) {
-        /*guard let predictedResult = try? tinyYOLO.prediction(image: image) else {
+        guard let predictedResult = try? tinyYOLO.prediction(image: image) else {
             return
-        }*/
+        }
 
+        print(predictedResult.grid)
         // TODO: Handler grid
         //handlerData(predictedResult: predictedResult.featureNames)
     }
