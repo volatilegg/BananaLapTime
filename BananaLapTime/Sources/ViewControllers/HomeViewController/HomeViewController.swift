@@ -36,7 +36,7 @@ final class HomeViewController: UIViewController {
     private let kLapTimerInterval: TimeInterval = 0.1 // timer only has a resolution 50ms-100ms
     private let kDefaultClockText: String = "00:00:00.0"
     private var prediction: Double = 0
-    private var modelType: ModelType = .vgg16
+    private var modelType: ModelType = .carRecognition
     private var lapTimer: Timer = Timer()
     private var startTime: Date?
     private var lapRecords: [Record] = [] {
@@ -47,7 +47,7 @@ final class HomeViewController: UIViewController {
 
             var lapText = ""
             for (index, lapRecord) in lapRecords.enumerated() {
-                lapText = lapText + "\(index). \(lapRecord.name): \(lapRecord.lapTime.clockFormat)\n"
+                lapText = lapText + "\(index+1). \(lapRecord.name): \(lapRecord.lapTime.clockFormat)\n"
             }
 
             lapTimeLabel.text = lapText
@@ -96,6 +96,26 @@ final class HomeViewController: UIViewController {
 
     lazy private var mobileNet: MobileNet = {
         let model = MobileNet()
+        return model
+    }()
+
+    lazy private var ageNet: AgeNet = {
+        let model = AgeNet()
+        return model
+    }()
+
+    lazy private var food101: Food101 = {
+        let model = Food101()
+        return model
+    }()
+
+    lazy private var tinyYOLO: TinyYOLO = {
+        let model = TinyYOLO()
+        return model
+    }()
+
+    lazy private var carRecognition: CarRecognition = {
+        let model = CarRecognition()
         return model
     }()
 
@@ -173,6 +193,40 @@ final class HomeViewController: UIViewController {
         
         handlerData(predictedResult: predictedResult.classLabelProbs)
     }
+
+    func classifierAgeNet(image: CVPixelBuffer) {
+        guard let predictedResult = try? ageNet.prediction(data: image) else {
+            return
+        }
+
+        handlerData(predictedResult: predictedResult.prob)
+    }
+
+    func classifierFood101(image: CVPixelBuffer) {
+        guard let predictedResult = try? food101.prediction(image: image) else {
+            return
+        }
+
+        handlerData(predictedResult: predictedResult.foodConfidence)
+    }
+
+    func classifierTinyYOLO(image: CVPixelBuffer) {
+        /*guard let predictedResult = try? tinyYOLO.prediction(image: image) else {
+            return
+        }*/
+
+        // TODO: Handler grid
+        //handlerData(predictedResult: predictedResult.featureNames)
+    }
+
+    func classifierCarRecognition(image: CVPixelBuffer) {
+        guard let predictedResult = try? carRecognition.prediction(data: image) else {
+            return
+        }
+
+        handlerData(predictedResult: predictedResult.prob)
+    }
+
     @objc func updateTimer() {
         guard let startTime = startTime else {
             return
@@ -206,6 +260,10 @@ final class HomeViewController: UIViewController {
         videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         videoPreviewLayer.frame = cameraWrapperView.bounds
         cameraWrapperView.layer.addSublayer(videoPreviewLayer)
+
+        if let captureConnection = videoPreviewLayer.connection, captureConnection.isVideoOrientationSupported {
+            captureConnection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIApplication.shared.statusBarOrientation.rawValue) ?? .landscapeLeft
+        }
 
         let queue = DispatchQueue(label: "com.banana.videoQueue")
         dataOutput.setSampleBufferDelegate(self, queue: queue)
@@ -254,6 +312,11 @@ final class HomeViewController: UIViewController {
         if let startTime = startTime {
             let newRecord = Record(name: selectedObject.name, lapTime: startTime.timeIntervalSinceNow)
             lapRecords.append(newRecord)
+            let alert = UIAlertController(title: "New record added", message: "Lap time for \(selectedObject.name) (\(selectedObject.prediction.percentage)%): \(startTime.timeIntervalSinceNow.clockFormat)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .`default`, handler: { _ in
+
+            }))
+            self.present(alert, animated: true, completion: nil)
         }
 
         startTime = nil
@@ -275,6 +338,14 @@ final class HomeViewController: UIViewController {
             classifierMobileNet(image: buffer)
         case .vgg16:
             classifierVGG16(image: buffer)
+        case .ageNet:
+            classifierAgeNet(image: buffer)
+        case .carRecognition:
+            classifierCarRecognition(image: buffer)
+        case .food101:
+            classifierFood101(image: buffer)
+        case .tinyYOLO:
+            classifierTinyYOLO(image: buffer)
         }
     }
 

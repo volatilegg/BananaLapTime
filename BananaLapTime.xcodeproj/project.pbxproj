@@ -17,6 +17,10 @@
 		E408C76E1FD96A22003E256A /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E408C76D1FD96A22003E256A /* TimeIntervalExtensions.swift */; };
 		E408C7711FD97DFE003E256A /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = E408C7701FD97DFE003E256A /* Record.swift */; };
 		E408C7731FD98B5B003E256A /* VGG16.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E408C7721FD98B5B003E256A /* VGG16.mlmodel */; };
+		E42181E91FDA8F8C0091ED75 /* AgeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E42181E81FDA8F8C0091ED75 /* AgeNet.mlmodel */; };
+		E42181ED1FDA920B0091ED75 /* TinyYOLO.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E42181EA1FDA920B0091ED75 /* TinyYOLO.mlmodel */; };
+		E42181EE1FDA920B0091ED75 /* CarRecognition.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E42181EB1FDA920B0091ED75 /* CarRecognition.mlmodel */; };
+		E42181EF1FDA920B0091ED75 /* Food101.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E42181EC1FDA920B0091ED75 /* Food101.mlmodel */; };
 		E4662AFD1FD6C34400671C07 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */; };
 		E47499761FD6E883003829A8 /* ThreadUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47499751FD6E883003829A8 /* ThreadUtils.swift */; };
 		E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE77791FD03D5C002DE84E /* AppDelegate.swift */; };
@@ -39,6 +43,10 @@
 		E408C76D1FD96A22003E256A /* TimeIntervalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtensions.swift; sourceTree = "<group>"; };
 		E408C7701FD97DFE003E256A /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		E408C7721FD98B5B003E256A /* VGG16.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = VGG16.mlmodel; sourceTree = "<group>"; };
+		E42181E81FDA8F8C0091ED75 /* AgeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = AgeNet.mlmodel; sourceTree = "<group>"; };
+		E42181EA1FDA920B0091ED75 /* TinyYOLO.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = TinyYOLO.mlmodel; sourceTree = "<group>"; };
+		E42181EB1FDA920B0091ED75 /* CarRecognition.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CarRecognition.mlmodel; sourceTree = "<group>"; };
+		E42181EC1FDA920B0091ED75 /* Food101.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Food101.mlmodel; sourceTree = "<group>"; };
 		E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		E47499751FD6E883003829A8 /* ThreadUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadUtils.swift; sourceTree = "<group>"; };
 		E4BE77761FD03D5C002DE84E /* BananaLapTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BananaLapTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +120,10 @@
 		E407BF8A1FD6C30200C0931C /* CoreMLModels */ = {
 			isa = PBXGroup;
 			children = (
+				E42181EB1FDA920B0091ED75 /* CarRecognition.mlmodel */,
+				E42181EC1FDA920B0091ED75 /* Food101.mlmodel */,
+				E42181EA1FDA920B0091ED75 /* TinyYOLO.mlmodel */,
+				E42181E81FDA8F8C0091ED75 /* AgeNet.mlmodel */,
 				E408C7721FD98B5B003E256A /* VGG16.mlmodel */,
 				E407BF841FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel */,
 				E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */,
@@ -270,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E408C7661FD941E7003E256A /* ArraySliceExtensions.swift in Sources */,
+				E42181EF1FDA920B0091ED75 /* Food101.mlmodel in Sources */,
 				E4F332221FD9ED23009F4823 /* ModelType.swift in Sources */,
 				E408C76A1FD94215003E256A /* CMSampleBufferExtensions.swift in Sources */,
 				E408C7681FD941FB003E256A /* DictionaryExtensions.swift in Sources */,
@@ -279,11 +292,14 @@
 				E408C7641FD941B6003E256A /* DoubleExtensions.swift in Sources */,
 				E408C7711FD97DFE003E256A /* Record.swift in Sources */,
 				E408C7731FD98B5B003E256A /* VGG16.mlmodel in Sources */,
+				E42181E91FDA8F8C0091ED75 /* AgeNet.mlmodel in Sources */,
+				E42181EE1FDA920B0091ED75 /* CarRecognition.mlmodel in Sources */,
 				E408C76E1FD96A22003E256A /* TimeIntervalExtensions.swift in Sources */,
 				E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */,
 				E47499761FD6E883003829A8 /* ThreadUtils.swift in Sources */,
 				E407BF891FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel in Sources */,
 				E4662AFD1FD6C34400671C07 /* Inceptionv3.mlmodel in Sources */,
+				E42181ED1FDA920B0091ED75 /* TinyYOLO.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

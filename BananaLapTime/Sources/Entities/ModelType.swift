@@ -13,6 +13,10 @@ enum ModelType {
     case googLeNetPlace
     case mobileNet
     case vgg16
+    case ageNet
+    case food101
+    case carRecognition
+    case tinyYOLO
 
     var imageSize: CGFloat {
         switch self {
@@ -24,6 +28,14 @@ enum ModelType {
             return 224
         case .vgg16:
             return 224
+        case .ageNet:
+            return 227
+        case .food101:
+            return 299
+        case .carRecognition:
+            return 224
+        case .tinyYOLO:
+            return 416
         }
     }
 }
