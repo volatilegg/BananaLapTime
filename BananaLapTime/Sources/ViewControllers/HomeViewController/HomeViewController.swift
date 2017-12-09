@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import CoreML
+import Vision
 
 enum BananaState: String {
     case warmUp
@@ -22,10 +23,14 @@ final class HomeViewController: UIViewController {
     // MARK: - ---------------------- IBOutlets --------------------------
     //
     @IBOutlet private weak var cameraWrapperView: UIView!
-    @IBOutlet private weak var detailsLabel: UILabel!    
+    @IBOutlet private weak var gridImageView: UIImageView!
+    @IBOutlet private weak var detailsLabel: UILabel!
     @IBOutlet private weak var currentObjectLabel: UILabel!
+    @IBOutlet private weak var currentModelTypeLabel: UILabel!
     @IBOutlet private weak var lapTimeLabel: UILabel!
     @IBOutlet private weak var lapClockLabel: UILabel!
+    @IBOutlet private weak var modelSelectionPickerView: UIPickerView!
+    @IBOutlet private weak var selectModelButton: UIButton!
 
     // MARK: - ---------------------- Public Properties --------------------------
     //
@@ -36,7 +41,16 @@ final class HomeViewController: UIViewController {
     private let kLapTimerInterval: TimeInterval = 0.1 // timer only has a resolution 50ms-100ms
     private let kDefaultClockText: String = "00:00:00.0"
     private var prediction: Double = 0
-    private var modelType: ModelType = .tinyYOLO
+    private var modelType: ModelType = .tinyYOLO {
+        didSet {
+            guard modelType != oldValue else {
+                return
+            }
+
+            modelTypeChange()
+        }
+    }
+
     private var lapTimer: Timer = Timer()
     private var startTime: Date?
     private var lapRecords: [Record] = [] {
@@ -79,46 +93,21 @@ final class HomeViewController: UIViewController {
         }
     }
 
-    lazy private var inception: Inceptionv3 = {
-        let model = Inceptionv3()
-        return model
-    }()
+    var visionRequest: VNCoreMLRequest?
 
-    lazy private var googleNet: GoogLeNetPlaces = {
-        let model = GoogLeNetPlaces()
-        return model
-    }()
+    lazy private var inception = Inceptionv3()
+    lazy private var googleNet = GoogLeNetPlaces()
+    lazy private var vgg16 = VGG16()
+    lazy private var mobileNet = MobileNet()
+    lazy private var ageNet = AgeNet()
+    lazy private var food101 = Food101()
+    lazy private var tinyYOLO = TinyYOLO()
+    lazy private var carRecognition = CarRecognition()
 
-    lazy private var vgg16: VGG16 = {
-        let model = VGG16()
-        return model
+    lazy private var models: [ModelType] = {
+        return [ModelType.inceptionV3, ModelType.vgg16, ModelType.googLeNetPlace, ModelType.mobileNet, ModelType.ageNet, ModelType.food101, ModelType.tinyYOLO, ModelType.carRecognition]
     }()
-
-    lazy private var mobileNet: MobileNet = {
-        let model = MobileNet()
-        return model
-    }()
-
-    lazy private var ageNet: AgeNet = {
-        let model = AgeNet()
-        return model
-    }()
-
-    lazy private var food101: Food101 = {
-        let model = Food101()
-        return model
-    }()
-
-    lazy private var tinyYOLO: TinyYOLO = {
-        let model = TinyYOLO()
-        return model
-    }()
-
-    lazy private var carRecognition: CarRecognition = {
-        let model = CarRecognition()
-        return model
-    }()
-
+    
     // Camera related variable
     lazy private var captureSession: AVCaptureSession? = {
         let session = AVCaptureSession()
@@ -130,7 +119,6 @@ final class HomeViewController: UIViewController {
         guard let captureSession = self.captureSession else {
             return nil
         }
-
         let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
 
         let screenWidth = UIScreen.main.bounds.size.width
@@ -144,6 +132,7 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCamera()
+        modelTypeChange()
 
         // Initialise state
         stateDidChange()
@@ -159,6 +148,14 @@ final class HomeViewController: UIViewController {
         state = .end
     }
 
+    @IBAction func selectModelButtonClicked(_ sender: Any) {
+        let selectedIndex = modelSelectionPickerView.selectedRow(inComponent: 0)
+        guard selectedIndex < models.count else {
+            return
+        }
+
+        modelType = models[selectedIndex]
+    }
     // MARK: - ---------------------- Public Methods --------------------------
     //
 
@@ -167,7 +164,7 @@ final class HomeViewController: UIViewController {
             return
         }
 
-        handlerData(predictedResult: predictedResult.classLabelProbs)
+        handlerPredictions(predictedResult.classLabelProbs)
     }
 
     func classifierGooglePlace(image: CVPixelBuffer) {
@@ -175,7 +172,7 @@ final class HomeViewController: UIViewController {
             return
         }
 
-        handlerData(predictedResult: predictedResult.sceneLabelProbs)
+        handlerPredictions(predictedResult.sceneLabelProbs)
     }
 
     func classifierInception(image: CVPixelBuffer) {
@@ -183,7 +180,7 @@ final class HomeViewController: UIViewController {
             return
         }
 
-        handlerData(predictedResult: predictedResult.classLabelProbs)
+        handlerPredictions(predictedResult.classLabelProbs)
     }
 
     func classifierMobileNet(image: CVPixelBuffer) {
@@ -191,7 +188,7 @@ final class HomeViewController: UIViewController {
             return
         }
         
-        handlerData(predictedResult: predictedResult.classLabelProbs)
+        handlerPredictions(predictedResult.classLabelProbs)
     }
 
     func classifierAgeNet(image: CVPixelBuffer) {
@@ -199,7 +196,7 @@ final class HomeViewController: UIViewController {
             return
         }
 
-        handlerData(predictedResult: predictedResult.prob)
+        handlerPredictions(predictedResult.prob)
     }
 
     func classifierFood101(image: CVPixelBuffer) {
@@ -207,7 +204,7 @@ final class HomeViewController: UIViewController {
             return
         }
 
-        handlerData(predictedResult: predictedResult.foodConfidence)
+        handlerPredictions(predictedResult.foodConfidence)
     }
 
     func classifierTinyYOLO(image: CVPixelBuffer) {
@@ -215,7 +212,18 @@ final class HomeViewController: UIViewController {
             return
         }
 
-        print(predictedResult.grid)
+        runOnMainThread { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            guard let gridImageView = strongSelf.gridImageView else {
+                return
+            }
+
+            gridImageView.image = predictedResult.grid.image(offset: 0.0, scale: 416)
+        }
+
         // TODO: Handler grid
         //handlerData(predictedResult: predictedResult.featureNames)
     }
@@ -225,7 +233,7 @@ final class HomeViewController: UIViewController {
             return
         }
 
-        handlerData(predictedResult: predictedResult.prob)
+        handlerPredictions(predictedResult.prob)
     }
 
     @objc func updateTimer() {
@@ -271,6 +279,54 @@ final class HomeViewController: UIViewController {
         captureSession.startRunning()
     }
 
+    private func setupVision(with coreMLModel: MLModel) {
+        guard let visionModel = try? VNCoreMLModel(for: coreMLModel) else {
+            return
+        }
+
+        visionRequest = VNCoreMLRequest(model: visionModel, completionHandler: { [weak self] request, error in
+            guard let strongSelf = self else {
+                return
+            }
+
+            guard let observations = request.results as? [VNClassificationObservation] else {
+                print(error ?? "cc")
+                return
+            }
+
+            strongSelf.handlerPredictions(observations)
+        })
+
+        visionRequest?.imageCropAndScaleOption = .centerCrop
+    }
+
+    private func modelTypeChange() {
+        currentModelTypeLabel.text = modelType.rawValue
+
+        var coreMLModel: MLModel!
+
+        switch modelType {
+        case .inceptionV3:
+            coreMLModel = inception.model
+        case .googLeNetPlace:
+            coreMLModel = googleNet.model
+        case .mobileNet:
+            coreMLModel = mobileNet.model
+        case .vgg16:
+            coreMLModel = vgg16.model
+        case .ageNet:
+            coreMLModel = ageNet.model
+        case .carRecognition:
+            coreMLModel = carRecognition.model
+        case .food101:
+            coreMLModel = food101.model
+        case .tinyYOLO:
+            coreMLModel = tinyYOLO.model
+        }
+
+        setupVision(with: coreMLModel)
+    }
+
     private func stateDidChange() {
         switch state {
         case .warmUp:
@@ -287,11 +343,13 @@ final class HomeViewController: UIViewController {
     private func warmUpState() {
         // Lap time clock stay at 0
         lapClockLabel.text = kDefaultClockText
+        selectModelButton.isEnabled = true
     }
 
     private func startState() {
         // Start lapTimer
         startLapTimer()
+        selectModelButton.isEnabled = false
     }
 
     private func lappingState() {
@@ -313,11 +371,11 @@ final class HomeViewController: UIViewController {
         if let startTime = startTime {
             let newRecord = Record(name: selectedObject.name, lapTime: startTime.timeIntervalSinceNow)
             lapRecords.append(newRecord)
-            let alert = UIAlertController(title: "New record added", message: "Lap time for \(selectedObject.name) (\(selectedObject.prediction.percentage)%): \(startTime.timeIntervalSinceNow.clockFormat)", preferredStyle: .alert)
+            /*let alert = UIAlertController(title: "New record added", message: "Lap time for \(selectedObject.name) (\(selectedObject.prediction.percentage)%): \(startTime.timeIntervalSinceNow.clockFormat)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .`default`, handler: { _ in
 
             }))
-            self.present(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)*/
         }
 
         startTime = nil
@@ -325,7 +383,20 @@ final class HomeViewController: UIViewController {
         state = .warmUp
     }
 
-    private func classifier(sampleBuffer: CMSampleBuffer, model: ModelType) {
+    private func classifierWithVision(sampleBuffer: CMSampleBuffer, model: ModelType) {
+        guard let inputData = sampleBuffer.image(newWidth: model.imageSize)?.cgImage else {
+            return
+        }
+
+        guard let visionRequest = visionRequest else {
+            return
+        }
+
+        let handler = VNImageRequestHandler(cgImage: inputData, options: [:])
+        try? handler.perform([visionRequest])
+    }
+
+    private func classifierWithoutVision(sampleBuffer: CMSampleBuffer, model: ModelType) {
         guard let buffer = sampleBuffer.image(newWidth: model.imageSize)?.cvBuffer() else {
             return
         }
@@ -350,14 +421,14 @@ final class HomeViewController: UIViewController {
         }
     }
 
-    private func handlerData(predictedResult: [String: Double]) {
+    private func handlerPredictions(_ predictedResults: [String: Double]) {
 
         runOnMainThread { [weak self] in
             guard let strongSelf = self else {
                 return
             }
 
-            let topFive = predictedResult.sorted(by: { $0.value > $1.value }).prefix(5)
+            let topFive = predictedResults.sorted(by: { $0.value > $1.value }).prefix(5)
             strongSelf.detailsLabel.text = topFive.display
 
             guard let topObject = topFive.first else {
@@ -384,15 +455,40 @@ final class HomeViewController: UIViewController {
             }
         }
     }
+
+    private func handlerPredictions(_ predictedResults: [VNClassificationObservation]) {
+        let predictions = predictedResults.reduce(into: [String: Double]()) { dict, observation in
+            dict[observation.identifier] = Double(observation.confidence)
+        }
+
+        handlerPredictions(predictions)
+    }
 }
 
 extension HomeViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 
-        classifier(sampleBuffer: sampleBuffer, model: modelType)
+        //classifierWithoutVision(sampleBuffer: sampleBuffer, model: modelType)
+        classifierWithVision(sampleBuffer: sampleBuffer, model: modelType)
+    }
+}
+
+extension HomeViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        guard row < models.count else {
+            return nil
+        }
+
+        return models[row].rawValue
+    }
+}
+
+extension HomeViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
     }
 
-    func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return models.count
     }
 }

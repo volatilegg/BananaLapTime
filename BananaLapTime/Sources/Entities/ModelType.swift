@@ -7,8 +7,9 @@
 //
 
 import CoreGraphics
+import CoreML
 
-enum ModelType {
+enum ModelType: String {
     case inceptionV3
     case googLeNetPlace
     case mobileNet
