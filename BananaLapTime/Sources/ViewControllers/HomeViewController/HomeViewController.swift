@@ -23,7 +23,6 @@ final class HomeViewController: UIViewController {
     // MARK: - ---------------------- IBOutlets --------------------------
     //
     @IBOutlet private weak var cameraWrapperView: UIView!
-    @IBOutlet private weak var gridImageView: UIImageView!
     @IBOutlet private weak var detailsLabel: UILabel!
     @IBOutlet private weak var currentObjectLabel: UILabel!
     @IBOutlet private weak var currentModelTypeLabel: UILabel!
@@ -103,6 +102,7 @@ final class HomeViewController: UIViewController {
     lazy private var food101 = Food101()
     lazy private var tinyYOLO = TinyYOLO()
     lazy private var carRecognition = CarRecognition()
+    lazy private var yolo = YOLO()
 
     lazy private var models: [ModelType] = {
         return [ModelType.inceptionV3, ModelType.vgg16, ModelType.googLeNetPlace, ModelType.mobileNet, ModelType.ageNet, ModelType.food101, ModelType.tinyYOLO, ModelType.carRecognition]
@@ -131,6 +131,7 @@ final class HomeViewController: UIViewController {
     // loadView > viewDidLoad > viewWillAppear > viewWillLayoutSubviews > viewDidLayoutSubviews > viewDidAppear
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpBoundingBoxes()
         setupCamera()
         modelTypeChange()
 
@@ -207,8 +208,11 @@ final class HomeViewController: UIViewController {
         handlerPredictions(predictedResult.foodConfidence)
     }
 
+    var boundingBoxes = [BoundingBox]()
+    var colors: [UIColor] = []
+
     func classifierTinyYOLO(image: CVPixelBuffer) {
-        guard let predictedResult = try? tinyYOLO.prediction(image: image) else {
+        guard let predictedResult = try? yolo.predict(image: image) else {
             return
         }
 
@@ -217,15 +221,46 @@ final class HomeViewController: UIViewController {
                 return
             }
 
-            guard let gridImageView = strongSelf.gridImageView else {
-                return
-            }
-
-            gridImageView.image = predictedResult.grid.image(offset: 0.0, scale: 416)
+            strongSelf.show(predictions: predictedResult)
+            //gridImageView.image = predictedResult.grid.image(offset: 0.0, scale: 416)
         }
 
         // TODO: Handler grid
         //handlerData(predictedResult: predictedResult.featureNames)
+    }
+
+    func show(predictions: [YOLO.Prediction]) {
+        for i in 0..<boundingBoxes.count {
+            if i < predictions.count {
+                let prediction = predictions[i]
+
+                // The predicted bounding box is in the coordinate space of the input
+                // image, which is a square image of 416x416 pixels. We want to show it
+                // on the video preview, which is as wide as the screen and has a 4:3
+                // aspect ratio. The video preview also may be letterboxed at the top
+                // and bottom.
+                let width = cameraWrapperView.frame.width
+                let height = width 
+                let scaleX = width / CGFloat(YOLO.inputWidth)
+                let scaleY = height / CGFloat(YOLO.inputHeight)
+                let top = (cameraWrapperView.frame.height - height) / 2
+
+                // Translate and scale the rectangle to our own coordinate system.
+                var rect = prediction.rect
+                rect.origin.x *= scaleX
+                rect.origin.y *= scaleY
+                rect.origin.y += top
+                rect.size.width *= scaleX
+                rect.size.height *= scaleY
+
+                // Show the bounding box.
+                let label = String(format: "%@ %.1f", labels[prediction.classIndex], prediction.score * 100)
+                let color = colors[prediction.classIndex]
+                boundingBoxes[i].show(frame: rect, label: label, color: color)
+            } else {
+                boundingBoxes[i].hide()
+            }
+        }
     }
 
     func classifierCarRecognition(image: CVPixelBuffer) {
@@ -246,6 +281,23 @@ final class HomeViewController: UIViewController {
 
     // MARK: - ---------------------- Private Methods --------------------------
     // fileprivate, private
+    func setUpBoundingBoxes() {
+        for _ in 0..<YOLO.maxBoundingBoxes {
+            boundingBoxes.append(BoundingBox())
+        }
+
+        // Make colors for the bounding boxes. There is one color for each class,
+        // 20 classes in total.
+        for r: CGFloat in [0.2, 0.4, 0.6, 0.8, 1.0] {
+            for g: CGFloat in [0.3, 0.7] {
+                for b: CGFloat in [0.4, 0.8] {
+                    let color = UIColor(red: r, green: g, blue: b, alpha: 1)
+                    colors.append(color)
+                }
+            }
+        }
+    }
+
     private func setupCamera() {
         guard let captureDevice = AVCaptureDevice.default(for: .video), let videoPreviewLayer = videoPreviewLayer, let captureSession = captureSession else {
             return
@@ -270,6 +322,11 @@ final class HomeViewController: UIViewController {
         videoPreviewLayer.frame = cameraWrapperView.bounds
         cameraWrapperView.layer.addSublayer(videoPreviewLayer)
 
+        // Add the bounding box layers to the UI, on top of the video preview.
+        for box in self.boundingBoxes {
+            box.addToLayer(cameraWrapperView.layer)
+        }
+
         if let captureConnection = videoPreviewLayer.connection, captureConnection.isVideoOrientationSupported {
             captureConnection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIApplication.shared.statusBarOrientation.rawValue) ?? .landscapeLeft
         }
@@ -284,20 +341,27 @@ final class HomeViewController: UIViewController {
             return
         }
 
-        visionRequest = VNCoreMLRequest(model: visionModel, completionHandler: { [weak self] request, error in
+        visionRequest = VNCoreMLRequest(model: visionModel, completionHandler: { [weak self] request, _ in
             guard let strongSelf = self else {
                 return
             }
 
-            guard let observations = request.results as? [VNClassificationObservation] else {
-                print(error ?? "cc")
+            if let observations = request.results as? [VNClassificationObservation] {
+                strongSelf.handlerPredictions(observations)
                 return
             }
 
-            strongSelf.handlerPredictions(observations)
+            if let observation = request.results?.first as? VNCoreMLFeatureValueObservation, let mlMultiArray = observation.featureValue.multiArrayValue {
+                let boundingBoxes = strongSelf.yolo.computeBoundingBoxes(features: mlMultiArray)
+                runOnMainThread {
+                    strongSelf.show(predictions: boundingBoxes)
+                }
+
+            }
+
         })
 
-        visionRequest?.imageCropAndScaleOption = .centerCrop
+        visionRequest?.imageCropAndScaleOption = .scaleFill
     }
 
     private func modelTypeChange() {

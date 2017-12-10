@@ -21,14 +21,6 @@
 		E42181ED1FDA920B0091ED75 /* TinyYOLO.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E42181EA1FDA920B0091ED75 /* TinyYOLO.mlmodel */; };
 		E42181EE1FDA920B0091ED75 /* CarRecognition.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E42181EB1FDA920B0091ED75 /* CarRecognition.mlmodel */; };
 		E42181EF1FDA920B0091ED75 /* Food101.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E42181EC1FDA920B0091ED75 /* Food101.mlmodel */; };
-		E42181F91FDAAA3A0091ED75 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42181F11FDAAA3A0091ED75 /* Math.swift */; };
-		E42181FA1FDAAA3A0091ED75 /* UIImage+CVPixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42181F21FDAAA3A0091ED75 /* UIImage+CVPixelBuffer.swift */; };
-		E42181FB1FDAAA3A0091ED75 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42181F31FDAAA3A0091ED75 /* Array.swift */; };
-		E42181FC1FDAAA3A0091ED75 /* Predictions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42181F41FDAAA3A0091ED75 /* Predictions.swift */; };
-		E42181FD1FDAAA3A0091ED75 /* MultiArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42181F51FDAAA3A0091ED75 /* MultiArray.swift */; };
-		E42181FE1FDAAA3A0091ED75 /* CVPixelBuffer+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42181F61FDAAA3A0091ED75 /* CVPixelBuffer+Helpers.swift */; };
-		E42181FF1FDAAA3A0091ED75 /* NonMaxSuppression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42181F71FDAAA3A0091ED75 /* NonMaxSuppression.swift */; };
-		E42182001FDAAA3A0091ED75 /* MLMultiArray+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42181F81FDAAA3A0091ED75 /* MLMultiArray+Image.swift */; };
 		E4662AFD1FD6C34400671C07 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */; };
 		E47499761FD6E883003829A8 /* ThreadUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47499751FD6E883003829A8 /* ThreadUtils.swift */; };
 		E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE77791FD03D5C002DE84E /* AppDelegate.swift */; };
@@ -38,6 +30,9 @@
 		E4BE77841FD03D5C002DE84E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4BE77821FD03D5C002DE84E /* LaunchScreen.storyboard */; };
 		E4F332221FD9ED23009F4823 /* ModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F332211FD9ED23009F4823 /* ModelType.swift */; };
 		E4F332251FD9EDA9009F4823 /* digital-7.regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4F332241FD9EDA9009F4823 /* digital-7.regular.ttf */; };
+		E4F83F691FDDBCFA00CCFF2E /* YOLO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F83F681FDDBCFA00CCFF2E /* YOLO.swift */; };
+		E4F83F6C1FDDCE8A00CCFF2E /* BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F83F6A1FDDCE8A00CCFF2E /* BoundingBox.swift */; };
+		E4F83F6D1FDDCE8A00CCFF2E /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F83F6B1FDDCE8A00CCFF2E /* Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,14 +50,6 @@
 		E42181EA1FDA920B0091ED75 /* TinyYOLO.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = TinyYOLO.mlmodel; sourceTree = "<group>"; };
 		E42181EB1FDA920B0091ED75 /* CarRecognition.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CarRecognition.mlmodel; sourceTree = "<group>"; };
 		E42181EC1FDA920B0091ED75 /* Food101.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Food101.mlmodel; sourceTree = "<group>"; };
-		E42181F11FDAAA3A0091ED75 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
-		E42181F21FDAAA3A0091ED75 /* UIImage+CVPixelBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+CVPixelBuffer.swift"; sourceTree = "<group>"; };
-		E42181F31FDAAA3A0091ED75 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
-		E42181F41FDAAA3A0091ED75 /* Predictions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Predictions.swift; sourceTree = "<group>"; };
-		E42181F51FDAAA3A0091ED75 /* MultiArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiArray.swift; sourceTree = "<group>"; };
-		E42181F61FDAAA3A0091ED75 /* CVPixelBuffer+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CVPixelBuffer+Helpers.swift"; sourceTree = "<group>"; };
-		E42181F71FDAAA3A0091ED75 /* NonMaxSuppression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonMaxSuppression.swift; sourceTree = "<group>"; };
-		E42181F81FDAAA3A0091ED75 /* MLMultiArray+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MLMultiArray+Image.swift"; sourceTree = "<group>"; };
 		E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		E47499751FD6E883003829A8 /* ThreadUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadUtils.swift; sourceTree = "<group>"; };
 		E4BE77761FD03D5C002DE84E /* BananaLapTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BananaLapTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,6 +61,9 @@
 		E4BE77851FD03D5C002DE84E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E4F332211FD9ED23009F4823 /* ModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelType.swift; sourceTree = "<group>"; };
 		E4F332241FD9EDA9009F4823 /* digital-7.regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "digital-7.regular.ttf"; sourceTree = "<group>"; };
+		E4F83F681FDDBCFA00CCFF2E /* YOLO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YOLO.swift; sourceTree = "<group>"; };
+		E4F83F6A1FDDCE8A00CCFF2E /* BoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBox.swift; sourceTree = "<group>"; };
+		E4F83F6B1FDDCE8A00CCFF2E /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,31 +141,18 @@
 		E408C76F1FD97DEC003E256A /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				E4F83F681FDDBCFA00CCFF2E /* YOLO.swift */,
 				E408C7701FD97DFE003E256A /* Record.swift */,
 				E4F332211FD9ED23009F4823 /* ModelType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
 		};
-		E42181F01FDAAA3A0091ED75 /* CoreMLHelpers */ = {
-			isa = PBXGroup;
-			children = (
-				E42181F11FDAAA3A0091ED75 /* Math.swift */,
-				E42181F21FDAAA3A0091ED75 /* UIImage+CVPixelBuffer.swift */,
-				E42181F31FDAAA3A0091ED75 /* Array.swift */,
-				E42181F41FDAAA3A0091ED75 /* Predictions.swift */,
-				E42181F51FDAAA3A0091ED75 /* MultiArray.swift */,
-				E42181F61FDAAA3A0091ED75 /* CVPixelBuffer+Helpers.swift */,
-				E42181F71FDAAA3A0091ED75 /* NonMaxSuppression.swift */,
-				E42181F81FDAAA3A0091ED75 /* MLMultiArray+Image.swift */,
-			);
-			path = CoreMLHelpers;
-			sourceTree = "<group>";
-		};
 		E47499741FD6E867003829A8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				E42181F01FDAAA3A0091ED75 /* CoreMLHelpers */,
+				E4F83F6A1FDDCE8A00CCFF2E /* BoundingBox.swift */,
+				E4F83F6B1FDDCE8A00CCFF2E /* Helpers.swift */,
 				E47499751FD6E883003829A8 /* ThreadUtils.swift */,
 				E408C7631FD941B6003E256A /* DoubleExtensions.swift */,
 				E408C7651FD941E7003E256A /* ArraySliceExtensions.swift */,
@@ -317,29 +294,24 @@
 				E42181EF1FDA920B0091ED75 /* Food101.mlmodel in Sources */,
 				E4F332221FD9ED23009F4823 /* ModelType.swift in Sources */,
 				E408C76A1FD94215003E256A /* CMSampleBufferExtensions.swift in Sources */,
-				E42181FA1FDAAA3A0091ED75 /* UIImage+CVPixelBuffer.swift in Sources */,
 				E408C7681FD941FB003E256A /* DictionaryExtensions.swift in Sources */,
-				E42181FF1FDAAA3A0091ED75 /* NonMaxSuppression.swift in Sources */,
-				E42181FE1FDAAA3A0091ED75 /* CVPixelBuffer+Helpers.swift in Sources */,
 				E4BE777C1FD03D5C002DE84E /* HomeViewController.swift in Sources */,
 				E408C76C1FD9422D003E256A /* UIImageExtensions.swift in Sources */,
 				E407BF881FD6C14E00C0931C /* MobileNet.mlmodel in Sources */,
 				E408C7641FD941B6003E256A /* DoubleExtensions.swift in Sources */,
+				E4F83F6C1FDDCE8A00CCFF2E /* BoundingBox.swift in Sources */,
+				E4F83F691FDDBCFA00CCFF2E /* YOLO.swift in Sources */,
 				E408C7711FD97DFE003E256A /* Record.swift in Sources */,
 				E408C7731FD98B5B003E256A /* VGG16.mlmodel in Sources */,
 				E42181E91FDA8F8C0091ED75 /* AgeNet.mlmodel in Sources */,
-				E42181FD1FDAAA3A0091ED75 /* MultiArray.swift in Sources */,
 				E42181EE1FDA920B0091ED75 /* CarRecognition.mlmodel in Sources */,
+				E4F83F6D1FDDCE8A00CCFF2E /* Helpers.swift in Sources */,
 				E408C76E1FD96A22003E256A /* TimeIntervalExtensions.swift in Sources */,
 				E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */,
 				E47499761FD6E883003829A8 /* ThreadUtils.swift in Sources */,
-				E42181FB1FDAAA3A0091ED75 /* Array.swift in Sources */,
-				E42181FC1FDAAA3A0091ED75 /* Predictions.swift in Sources */,
 				E407BF891FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel in Sources */,
 				E4662AFD1FD6C34400671C07 /* Inceptionv3.mlmodel in Sources */,
 				E42181ED1FDA920B0091ED75 /* TinyYOLO.mlmodel in Sources */,
-				E42181F91FDAAA3A0091ED75 /* Math.swift in Sources */,
-				E42182001FDAAA3A0091ED75 /* MLMultiArray+Image.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
