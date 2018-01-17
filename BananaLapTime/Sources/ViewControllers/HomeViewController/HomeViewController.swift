@@ -31,16 +31,27 @@ final class HomeViewController: UIViewController {
     @IBOutlet private weak var modelSelectionPickerView: UIPickerView!
     @IBOutlet private weak var selectModelButton: UIButton!
 
-    // MARK: - ---------------------- Public Properties --------------------------
-    //
-
     // MARK: - ---------------------- Private Properties --------------------------
     //
     private let kMinimumLaptime: TimeInterval = 3.0
     private let kLapTimerInterval: TimeInterval = 0.1 // timer only has a resolution 50ms-100ms
     private let kDefaultClockText: String = "00:00:00.0"
     private var prediction: Double = 0
-    private var modelType: ModelType = .tinyYOLO {
+    private var framesDropped: Int = 0 {
+        didSet {
+
+        }
+    }
+    private var processTime: Double? {
+        didSet {
+            guard let processTime = processTime else {
+                return
+            }
+
+            handlerProcessTime(processTime)
+        }
+    }
+    private var modelType: ModelType = .inceptionV3 {
         didSet {
             guard modelType != oldValue else {
                 return
@@ -323,9 +334,9 @@ final class HomeViewController: UIViewController {
         cameraWrapperView.layer.addSublayer(videoPreviewLayer)
 
         // Add the bounding box layers to the UI, on top of the video preview.
-        for box in self.boundingBoxes {
+        /*for box in self.boundingBoxes {
             box.addToLayer(cameraWrapperView.layer)
-        }
+        }*/
 
         if let captureConnection = videoPreviewLayer.connection, captureConnection.isVideoOrientationSupported {
             captureConnection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIApplication.shared.statusBarOrientation.rawValue) ?? .landscapeLeft
@@ -342,6 +353,13 @@ final class HomeViewController: UIViewController {
         }
 
         visionRequest = VNCoreMLRequest(model: visionModel, completionHandler: { [weak self] request, _ in
+            let processStartTime = CACurrentMediaTime()
+
+            defer {
+                let processEndTime = CACurrentMediaTime()
+                self?.processTime = processEndTime - processStartTime
+            }
+
             guard let strongSelf = self else {
                 return
             }
@@ -351,13 +369,13 @@ final class HomeViewController: UIViewController {
                 return
             }
 
-            if let observation = request.results?.first as? VNCoreMLFeatureValueObservation, let mlMultiArray = observation.featureValue.multiArrayValue {
+            /*if let observation = request.results?.first as? VNCoreMLFeatureValueObservation, let mlMultiArray = observation.featureValue.multiArrayValue {
                 let boundingBoxes = strongSelf.yolo.computeBoundingBoxes(features: mlMultiArray)
                 runOnMainThread {
                     strongSelf.show(predictions: boundingBoxes)
                 }
 
-            }
+            }*/
 
         })
 
@@ -461,6 +479,13 @@ final class HomeViewController: UIViewController {
     }
 
     private func classifierWithoutVision(sampleBuffer: CMSampleBuffer, model: ModelType) {
+        let processStartTime = CACurrentMediaTime()
+
+        defer {
+            let processEndTime = CACurrentMediaTime()
+            processTime = processEndTime - processStartTime
+        }
+
         guard let buffer = sampleBuffer.image(newWidth: model.imageSize)?.cvBuffer() else {
             return
         }
@@ -527,6 +552,18 @@ final class HomeViewController: UIViewController {
 
         handlerPredictions(predictions)
     }
+
+    private func handlerProcessTime(_ processTime: Double) {
+        runOnMainThread {
+            print("[Process]: \(processTime) seconds")
+        }
+    }
+
+    private func handlerFrameDropped() {
+        runOnMainThread {
+            print("[Frames drop]: \(self.framesDropped)")
+        }
+    }
 }
 
 extension HomeViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -534,6 +571,10 @@ extension HomeViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
         //classifierWithoutVision(sampleBuffer: sampleBuffer, model: modelType)
         classifierWithVision(sampleBuffer: sampleBuffer, model: modelType)
+    }
+
+    func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        framesDropped += 1
     }
 }
 
