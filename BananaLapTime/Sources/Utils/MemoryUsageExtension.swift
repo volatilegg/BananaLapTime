@@ -8,7 +8,7 @@
 
 import Foundation
 
-func getMemoryUsage() {
+func getMemoryUsage() -> String {
     var taskInfo = mach_task_basic_info()
     var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size)/4
     let kerr: kern_return_t = withUnsafeMutablePointer(to: &taskInfo) {
@@ -18,9 +18,10 @@ func getMemoryUsage() {
     }
 
     if kerr == KERN_SUCCESS {
-        print("Memory used in bytes: \(taskInfo.resident_size)")
+        return "Memory used: \(Float(taskInfo.resident_size)/(1024 * 1024)) MB"
     } else {
         print("Error with task_info(): " +
             (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
+        return "Memory used: N/A"
     }
 }

@@ -38,6 +38,7 @@ final class HomeViewController: UIViewController {
     //
     private let kMinimumLaptime: TimeInterval = 3.0
     private let kLapTimerInterval: TimeInterval = 0.1 // timer only has a resolution 50ms-100ms
+    private let kMemoryTimerInterval: TimeInterval = 1.0
     private let kDefaultClockText: String = "00:00:00.0"
     private var prediction: Double = 0
     private var framesDropped: Int = 0 {
@@ -65,6 +66,7 @@ final class HomeViewController: UIViewController {
     }
 
     private var lapTimer: Timer = Timer()
+    private var memoryTimer: Timer = Timer()
     private var startTime: Date?
     private var lapRecords: [Record] = [] {
         didSet {
@@ -147,10 +149,16 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         setUpBoundingBoxes()
         setupCamera()
+        setUpMemoryDisplay()
         modelTypeChange()
 
         // Initialise state
         stateDidChange()
+    }
+
+    deinit {
+        lapTimer.invalidate()
+        memoryTimer.invalidate()
     }
 
     // MARK: - ---------------------- Route Methods --------------------------
@@ -310,6 +318,14 @@ final class HomeViewController: UIViewController {
                 }
             }
         }
+    }
+
+    private func setUpMemoryDisplay() {
+        memoryTimer = Timer.scheduledTimer(timeInterval: kMemoryTimerInterval, target: self, selector: #selector(updateMemoryUsage), userInfo: nil, repeats: true)
+    }
+
+    @objc private func updateMemoryUsage() {
+        memoryUsageLabel.text = getMemoryUsage()
     }
 
     private func setupCamera() {
