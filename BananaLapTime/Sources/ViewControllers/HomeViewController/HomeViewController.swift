@@ -41,11 +41,13 @@ final class HomeViewController: UIViewController {
     private let kMemoryTimerInterval: TimeInterval = 1.0
     private let kDefaultClockText: String = "00:00:00.0"
     private var prediction: Double = 0
+    private var useVision: Bool = true
     private var framesDropped: Int = 0 {
         didSet {
             handlerFrameDropped()
         }
     }
+
     private var processTime: Double? {
         didSet {
             guard let processTime = processTime else {
@@ -179,6 +181,11 @@ final class HomeViewController: UIViewController {
 
         modelType = models[selectedIndex]
     }
+
+    @IBAction func visionSegmentControlValueChanged(_ sender: Any) {
+        useVision.toggle()
+    }
+
     // MARK: - ---------------------- Public Methods --------------------------
     //
 
@@ -598,7 +605,13 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 
-        //classifierWithoutVision(sampleBuffer: sampleBuffer, model: modelType)
+        guard useVision else {
+            classifierWithoutVision(sampleBuffer: sampleBuffer, model: modelType)
+            print("no vision")
+            return
+        }
+
+        print("vision")
         classifierWithVision(sampleBuffer: sampleBuffer, model: modelType)
     }
 
