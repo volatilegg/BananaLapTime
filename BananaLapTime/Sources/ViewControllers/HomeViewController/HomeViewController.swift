@@ -28,6 +28,9 @@ final class HomeViewController: UIViewController {
     @IBOutlet private weak var currentModelTypeLabel: UILabel!
     @IBOutlet private weak var lapTimeLabel: UILabel!
     @IBOutlet private weak var lapClockLabel: UILabel!
+    @IBOutlet private weak var memoryUsageLabel: UILabel!
+    @IBOutlet private weak var elapsedTimeLabel: UILabel!
+    @IBOutlet private weak var framesDropLabel: UILabel!
     @IBOutlet private weak var modelSelectionPickerView: UIPickerView!
     @IBOutlet private weak var selectModelButton: UIButton!
 
@@ -39,7 +42,7 @@ final class HomeViewController: UIViewController {
     private var prediction: Double = 0
     private var framesDropped: Int = 0 {
         didSet {
-
+            handlerFrameDropped()
         }
     }
     private var processTime: Double? {
@@ -292,7 +295,7 @@ final class HomeViewController: UIViewController {
 
     // MARK: - ---------------------- Private Methods --------------------------
     // fileprivate, private
-    func setUpBoundingBoxes() {
+    private func setUpBoundingBoxes() {
         for _ in 0..<YOLO.maxBoundingBoxes {
             boundingBoxes.append(BoundingBox())
         }
@@ -554,14 +557,24 @@ final class HomeViewController: UIViewController {
     }
 
     private func handlerProcessTime(_ processTime: Double) {
-        runOnMainThread {
-            print("[Process]: \(processTime) seconds")
+        runOnMainThread { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.elapsedTimeLabel.text = String(format: "Elapsed time: %.8f s", processTime)
+            //print("[Process]: \(processTime) seconds")
         }
     }
 
     private func handlerFrameDropped() {
-        runOnMainThread {
-            print("[Frames drop]: \(self.framesDropped)")
+        runOnMainThread { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.framesDropLabel.text = "Frames dropped: \(strongSelf.framesDropped)"
+            //print("[Frames drop]: \(self.framesDropped)")
         }
     }
 }

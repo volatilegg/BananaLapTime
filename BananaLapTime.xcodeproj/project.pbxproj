@@ -21,6 +21,7 @@
 		E42181ED1FDA920B0091ED75 /* TinyYOLO.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E42181EA1FDA920B0091ED75 /* TinyYOLO.mlmodel */; };
 		E42181EE1FDA920B0091ED75 /* CarRecognition.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E42181EB1FDA920B0091ED75 /* CarRecognition.mlmodel */; };
 		E42181EF1FDA920B0091ED75 /* Food101.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E42181EC1FDA920B0091ED75 /* Food101.mlmodel */; };
+		E443ABA8200EFAC60061653A /* MemoryUsageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E443ABA7200EFAC60061653A /* MemoryUsageExtension.swift */; };
 		E4662AFD1FD6C34400671C07 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */; };
 		E47499761FD6E883003829A8 /* ThreadUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47499751FD6E883003829A8 /* ThreadUtils.swift */; };
 		E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE77791FD03D5C002DE84E /* AppDelegate.swift */; };
@@ -50,6 +51,7 @@
 		E42181EA1FDA920B0091ED75 /* TinyYOLO.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = TinyYOLO.mlmodel; sourceTree = "<group>"; };
 		E42181EB1FDA920B0091ED75 /* CarRecognition.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CarRecognition.mlmodel; sourceTree = "<group>"; };
 		E42181EC1FDA920B0091ED75 /* Food101.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Food101.mlmodel; sourceTree = "<group>"; };
+		E443ABA7200EFAC60061653A /* MemoryUsageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUsageExtension.swift; sourceTree = "<group>"; };
 		E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		E47499751FD6E883003829A8 /* ThreadUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadUtils.swift; sourceTree = "<group>"; };
 		E4BE77761FD03D5C002DE84E /* BananaLapTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BananaLapTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,6 +162,7 @@
 				E408C7691FD94215003E256A /* CMSampleBufferExtensions.swift */,
 				E408C76B1FD9422D003E256A /* UIImageExtensions.swift */,
 				E408C76D1FD96A22003E256A /* TimeIntervalExtensions.swift */,
+				E443ABA7200EFAC60061653A /* MemoryUsageExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				E47499761FD6E883003829A8 /* ThreadUtils.swift in Sources */,
 				E407BF891FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel in Sources */,
 				E4662AFD1FD6C34400671C07 /* Inceptionv3.mlmodel in Sources */,
+				E443ABA8200EFAC60061653A /* MemoryUsageExtension.swift in Sources */,
 				E42181ED1FDA920B0091ED75 /* TinyYOLO.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
