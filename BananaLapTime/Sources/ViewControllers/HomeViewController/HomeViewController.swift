@@ -607,11 +607,9 @@ extension HomeViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
         guard useVision else {
             classifierWithoutVision(sampleBuffer: sampleBuffer, model: modelType)
-            print("no vision")
             return
         }
-
-        print("vision")
+        
         classifierWithVision(sampleBuffer: sampleBuffer, model: modelType)
     }
 
