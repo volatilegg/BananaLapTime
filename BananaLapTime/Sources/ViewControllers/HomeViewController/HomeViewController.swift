@@ -42,6 +42,7 @@ final class HomeViewController: UIViewController {
     private let kDefaultClockText: String = "00:00:00.0"
     private var prediction: Double = 0
     private var useVision: Bool = true
+    private var fileName: String = "inceptionV3-\(Int(Date.timeIntervalSinceReferenceDate)).txt"
     private var framesDropped: Int = 0 {
         didSet {
             handlerFrameDropped()
@@ -409,8 +410,9 @@ final class HomeViewController: UIViewController {
     }
 
     private func modelTypeChange() {
-        currentModelTypeLabel.text = modelType.rawValue
 
+        currentModelTypeLabel.text = modelType.rawValue
+        fileName = "\(modelType.rawValue)-\(Int(Date.timeIntervalSinceReferenceDate)).txt"
         var coreMLModel: MLModel!
 
         switch modelType {
@@ -586,7 +588,7 @@ final class HomeViewController: UIViewController {
             }
 
             strongSelf.elapsedTimeLabel.text = String(format: "Elapsed time: %.8f s", processTime)
-            logging("[Process]: \(processTime) seconds")
+            logging("\(processTime),\(getMemoryUsage()),\(strongSelf.framesDropped)", fileName: strongSelf.fileName)
             //print("[Process]: \(processTime) seconds")
         }
     }

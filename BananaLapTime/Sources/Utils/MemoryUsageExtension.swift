@@ -18,7 +18,7 @@ func getMemoryUsage() -> String {
     }
 
     if kerr == KERN_SUCCESS {
-        return "Memory used: \(Float(taskInfo.resident_size)/(1024 * 1024)) MB"
+        return "\(Float(taskInfo.resident_size)/(1024 * 1024))"
     } else {
         print("Error with task_info(): " +
             (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
