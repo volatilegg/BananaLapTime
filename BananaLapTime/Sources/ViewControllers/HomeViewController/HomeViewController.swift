@@ -586,6 +586,7 @@ final class HomeViewController: UIViewController {
             }
 
             strongSelf.elapsedTimeLabel.text = String(format: "Elapsed time: %.8f s", processTime)
+            logging("[Process]: \(processTime) seconds")
             //print("[Process]: \(processTime) seconds")
         }
     }
