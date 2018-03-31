@@ -42,6 +42,7 @@ final class HomeViewController: UIViewController {
     private let kDefaultClockText: String = "00:00:00.0"
     private var prediction: Double = 0
     private var useVision: Bool = true
+    private var fileName: String = "dummy-\(Int(Date.timeIntervalSinceReferenceDate)).txt"
     private var framesDropped: Int = 0 {
         didSet {
             handlerFrameDropped()
@@ -121,9 +122,11 @@ final class HomeViewController: UIViewController {
     lazy private var tinyYOLO = TinyYOLO()
     lazy private var carRecognition = CarRecognition()
     lazy private var yolo = YOLO()
+    lazy private var fruitResNet = FruitClassifierResNet()
+    lazy private var fruitSqueezeNet = FruitClassifierSqueezeNet()
 
     lazy private var models: [ModelType] = {
-        return [ModelType.inceptionV3, ModelType.vgg16, ModelType.googLeNetPlace, ModelType.mobileNet, ModelType.ageNet, ModelType.food101, ModelType.tinyYOLO, ModelType.carRecognition]
+        return [ModelType.inceptionV3, ModelType.vgg16, ModelType.googLeNetPlace, ModelType.mobileNet, ModelType.ageNet, ModelType.food101, ModelType.tinyYOLO, ModelType.carRecognition, ModelType.fruitResNet, ModelType.fruitSqueezeNet]
     }()
     
     // Camera related variable
@@ -235,6 +238,22 @@ final class HomeViewController: UIViewController {
         }
 
         handlerPredictions(predictedResult.foodConfidence)
+    }
+
+    func classifierFruitResNet(image: CVPixelBuffer) {
+        guard let predictedResult = try? fruitResNet.prediction(image: image) else {
+            return
+        }
+
+        handlerPredictions(predictedResult.fruitProbability)
+    }
+
+    func classifierFruitSqueezeNet(image: CVPixelBuffer) {
+        guard let predictedResult = try? fruitSqueezeNet.prediction(image: image) else {
+            return
+        }
+
+        handlerPredictions(predictedResult.fruitProbability)
     }
 
     var boundingBoxes = [BoundingBox]()
@@ -409,8 +428,9 @@ final class HomeViewController: UIViewController {
     }
 
     private func modelTypeChange() {
-        currentModelTypeLabel.text = modelType.rawValue
 
+        currentModelTypeLabel.text = modelType.rawValue
+        fileName = "\(modelType.rawValue)-\(Int(Date.timeIntervalSinceReferenceDate)).txt"
         var coreMLModel: MLModel!
 
         switch modelType {
@@ -430,6 +450,10 @@ final class HomeViewController: UIViewController {
             coreMLModel = food101.model
         case .tinyYOLO:
             coreMLModel = tinyYOLO.model
+        case .fruitResNet:
+            coreMLModel = fruitResNet.model
+        case .fruitSqueezeNet:
+            coreMLModel = fruitSqueezeNet.model
         }
 
         setupVision(with: coreMLModel)
@@ -533,6 +557,10 @@ final class HomeViewController: UIViewController {
             classifierFood101(image: buffer)
         case .tinyYOLO:
             classifierTinyYOLO(image: buffer)
+        case .fruitResNet:
+            classifierFruitResNet(image: buffer)
+        case .fruitSqueezeNet:
+            classifierFruitSqueezeNet(image: buffer)
         }
     }
 
@@ -586,6 +614,7 @@ final class HomeViewController: UIViewController {
             }
 
             strongSelf.elapsedTimeLabel.text = String(format: "Elapsed time: %.8f s", processTime)
+            logging("\(processTime),\(getMemoryUsage()),\(strongSelf.framesDropped)", fileName: strongSelf.fileName)
             //print("[Process]: \(processTime) seconds")
         }
     }
