@@ -25,6 +25,8 @@
 		E443ABAA200F07F60061653A /* BoolExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E443ABA9200F07F60061653A /* BoolExtension.swift */; };
 		E4662AFD1FD6C34400671C07 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */; };
 		E47499761FD6E883003829A8 /* ThreadUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47499751FD6E883003829A8 /* ThreadUtils.swift */; };
+		E47D7363206EFB0200C607BF /* FruitClassifierSqueezeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E47D7361206EFB0200C607BF /* FruitClassifierSqueezeNet.mlmodel */; };
+		E47D7364206EFB0200C607BF /* FruitClassifierResNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E47D7362206EFB0200C607BF /* FruitClassifierResNet.mlmodel */; };
 		E49E466820162D0100861469 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49E466720162D0100861469 /* Logging.swift */; };
 		E4BE777A1FD03D5C002DE84E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE77791FD03D5C002DE84E /* AppDelegate.swift */; };
 		E4BE777C1FD03D5C002DE84E /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BE777B1FD03D5C002DE84E /* HomeViewController.swift */; };
@@ -57,6 +59,8 @@
 		E443ABA9200F07F60061653A /* BoolExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolExtension.swift; sourceTree = "<group>"; };
 		E4662AFA1FD6C34400671C07 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
 		E47499751FD6E883003829A8 /* ThreadUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadUtils.swift; sourceTree = "<group>"; };
+		E47D7361206EFB0200C607BF /* FruitClassifierSqueezeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FruitClassifierSqueezeNet.mlmodel; sourceTree = "<group>"; };
+		E47D7362206EFB0200C607BF /* FruitClassifierResNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FruitClassifierResNet.mlmodel; sourceTree = "<group>"; };
 		E49E466720162D0100861469 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		E4BE77761FD03D5C002DE84E /* BananaLapTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BananaLapTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4BE77791FD03D5C002DE84E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +136,8 @@
 		E407BF8A1FD6C30200C0931C /* CoreMLModels */ = {
 			isa = PBXGroup;
 			children = (
+				E47D7362206EFB0200C607BF /* FruitClassifierResNet.mlmodel */,
+				E47D7361206EFB0200C607BF /* FruitClassifierSqueezeNet.mlmodel */,
 				E42181EB1FDA920B0091ED75 /* CarRecognition.mlmodel */,
 				E42181EC1FDA920B0091ED75 /* Food101.mlmodel */,
 				E42181EA1FDA920B0091ED75 /* TinyYOLO.mlmodel */,
@@ -236,7 +242,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0910;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = Duc;
 				TargetAttributes = {
 					E4BE77751FD03D5C002DE84E = {
@@ -323,7 +329,9 @@
 				E407BF891FD6C14E00C0931C /* GoogLeNetPlaces.mlmodel in Sources */,
 				E4662AFD1FD6C34400671C07 /* Inceptionv3.mlmodel in Sources */,
 				E443ABA8200EFAC60061653A /* MemoryUsageExtension.swift in Sources */,
+				E47D7364206EFB0200C607BF /* FruitClassifierResNet.mlmodel in Sources */,
 				E42181ED1FDA920B0091ED75 /* TinyYOLO.mlmodel in Sources */,
+				E47D7363206EFB0200C607BF /* FruitClassifierSqueezeNet.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +373,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -372,6 +381,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -422,6 +432,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -429,6 +440,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -469,7 +481,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ducdo.BananaLapTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -484,7 +496,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ducdo.BananaLapTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

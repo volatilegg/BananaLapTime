@@ -18,7 +18,9 @@ enum ModelType: String {
     case food101
     case carRecognition
     case tinyYOLO
-
+    case fruitResNet
+    case fruitSqueezeNet
+    
     var imageSize: CGFloat {
         switch self {
         case .inceptionV3:
@@ -37,6 +39,10 @@ enum ModelType: String {
             return 224
         case .tinyYOLO:
             return 416
+        case .fruitResNet:
+            return 224
+        case .fruitSqueezeNet:
+            return 227
         }
     }
 }
