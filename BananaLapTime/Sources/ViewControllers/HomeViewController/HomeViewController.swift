@@ -21,7 +21,7 @@ enum BananaState: String {
 final class HomeViewController: UIViewController {
 
     // MARK: - ---------------------- IBOutlets --------------------------
-    //
+    /// ....
     @IBOutlet private weak var cameraWrapperView: UIView!
     @IBOutlet private weak var detailsLabel: UILabel!
     @IBOutlet private weak var currentObjectLabel: UILabel!

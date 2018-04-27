@@ -12,27 +12,26 @@ func logging(_ s: String, fileName: String) {
     let documents = getDocumentsDirectory()
     let pathURL = documents.appendingPathComponent(fileName)
 
+    /// Create a new log file and insert first header row if file is not exist yet
+    /// elapse_time,memory_used,frames_dropped
     if !FileManager.default.fileExists(atPath: pathURL.path) {
         FileManager.default.createFile(atPath: pathURL.path, contents: nil, attributes: nil)
         do {
             let fileHandle = try FileHandle(forWritingTo: pathURL)
             fileHandle.write("elapse_time,memory_used,frames_dropped\n".data(using: String.Encoding.utf8)!)
-            // Write contents to file
-            // try s.write(toFile: pathURL.path, atomically: false, encoding: String.Encoding.utf8)
         } catch let error as NSError {
-            print("Ooops! Something went wrong: \(error)")
+            print("[LogError]: Ooops! Something went while creating log file file wrong \n[LogError]: \(error)")
         }
     }
 
+    /// Insert log data to the bottom of log file
     do {
         let fileHandle = try FileHandle(forWritingTo: pathURL)
         fileHandle.seekToEndOfFile()
 
         fileHandle.write("\(s)\n".data(using: String.Encoding.utf8)!)
-        // Write contents to file
-        // try s.write(toFile: pathURL.path, atomically: false, encoding: String.Encoding.utf8)
     } catch let error as NSError {
-        print("Ooops! Something went wrong: \(error)")
+        print("[LogError] Ooops! Something went wrong while adding content \n[LogError]: \(error)")
     }
 
 }
